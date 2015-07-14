@@ -2,16 +2,16 @@ require 'curses'
 require 'grid'
 
 class Console
-  def initialize(input,output,grid,height,width,screen)
+  def initialize(input,output,grid,height,width)
     @input = input
     @output = output
     @grid = grid
     @height = height
     @width = width
-    @screen = screen
   end
 
   def player_guess
+    @output.puts "Guess a coordinate:\n"
     guess = @input.gets
     guessed = Grid.new(2,2,@grid).target(guess)
     display(guessed)
@@ -33,8 +33,7 @@ class Console
   end
 
   def run
+      
 
   end
-
-
 end

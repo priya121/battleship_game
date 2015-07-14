@@ -53,7 +53,6 @@ describe Battleship do
         Battleship.new(row_coordinates,column_coordinates).destroyer_coordinates(third_row)
         expect(Battleship.new(row_coordinates,column_coordinates).player_guess("C7")).to eq(amended_third_row)
       end
-
     end
   end 
 end

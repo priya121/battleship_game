@@ -8,13 +8,5 @@ class Player
     @guess = guess
   end
 
-  def player_guesses_coordinate(guess)
-    hit = []
-   if @guess == @ship_coordinate
-    hit << @ship_coordinate  
-
-   end
-  end
-
 end
 

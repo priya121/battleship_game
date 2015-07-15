@@ -1,5 +1,3 @@
-require 'battleship'
-
 class Grid
   attr_accessor :rows,:columns
   attr_reader :cells
@@ -7,6 +5,21 @@ class Grid
     @rows = rows
     @columns = columns
     @cells = cells
+  end
+
+  def self.generate_grid(size)
+    grid = []
+    (0..size - 1). each do |cell|
+      rand = ["E","S"].sample
+      grid << rand
+    end
+    grid
+  end
+
+  def self.random_grid(width,height)
+    cells = generate_grid(width*height)
+    grid = Grid.new(width,height,cells)
+    return grid
   end
 
   def place_ship(grid)

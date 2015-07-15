@@ -13,27 +13,22 @@ class Console
   def player_guess
     @output.puts "Guess a coordinate:\n"
     guess = @input.gets
-    guessed = Grid.new(2,2,@grid).target(guess)
-    display(guessed)
+    display(Grid.new(2,2,@grid).target(guess))
   end
 
   def display(guessed)
     guessed.each_with_index do |cell,index|
-    if (index)% @width == 0
-      @output.puts "\n"
-    end
-        if cell == "E"
-          @output.print"∙"
-        elsif cell == "M"
-          @output.print "◦"
-        elsif cell == "S"
-          @output.print "🚢"
-        end
+      if (index)% @width == 0
+        @output.puts "\n"
       end
+      if cell == "E"
+        @output.print"∙"
+      elsif cell == "M"
+        @output.print "◦"
+      else cell == "S"
+        @output.print "H\n"
+      end
+    end
   end
 
-  def run
-      
-
-  end
 end

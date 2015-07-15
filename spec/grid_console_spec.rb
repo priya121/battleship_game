@@ -15,13 +15,13 @@ describe Console do
       ship_placed= Grid.new(2,2,["E","E","E","E"]).place_ship(1)
       grid_after_guess = Grid.new(2,2,ship_placed).target('A1')
       Console.new(input,output,grid_after_guess,2,2).display(grid_after_guess)
-      expect(output.string).to eq("\n◦🚢\n∙∙")
+      expect(output.string).to eq("\n◦H\n∙∙")
     end
 
     it 'takes a players guess and outputs icons' do
       grid = Grid.new(2,2,["E","E","E","E"]).place_ship(1)
       Console.new(input,output,grid,2,2).player_guess
-      expect(output.string).to include("\n◦🚢\n∙∙")
+      expect(output.string).to include("\n◦H\n∙∙")
     end
 
     it "asks the user to guess a coordinate" do

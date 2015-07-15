@@ -28,5 +28,15 @@ describe Grid do
       ship_placed = (Grid.new(2,2,initial_grid).place_ship(1))
       expect(Grid.new(2,2,ship_placed).target('A2')).to eq(["E","H","E","E"])
     end
+
+    it 'generates 4 random cells' do 
+     grid = Grid.generate_grid(4) 
+     expect(grid.size).to eq(4)
+    end
+
+    it 'generates 10 random cells' do 
+     grid = Grid.generate_grid(10) 
+     expect(grid.size).to eq(10)
+    end
   end
 end

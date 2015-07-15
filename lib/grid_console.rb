@@ -21,14 +21,15 @@ class Console
       if (index)% @width == 0
         @output.puts "\n"
       end
-      if cell == "E"
+      if cell == "E" || cell == "S"
         @output.print"∙"
       elsif cell == "M"
         @output.print "◦"
-      else cell == "S"
-        @output.print "H\n"
+      elsif cell == "H"
+        @output.print "HIT"
       end
     end
   end
+
 
 end

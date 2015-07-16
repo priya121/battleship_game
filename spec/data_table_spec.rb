@@ -7,22 +7,22 @@ describe Table do
     ROWS = ['A','B','C']
 
   it 'creates the table with coordinates' do 
-    Table.new(output,1,1,ROWS,COLUMNS).display_grid(['∙'])
+    Table.new(output,ROWS,COLUMNS).display_grid(['∙'])
     expect(output.string).to include("[\"∙\"]")
   end
 
   it 'creates a table with y axis letters' do 
-    Table.new(output,2,2,ROWS,COLUMNS).display_grid('∙')
-    expect(output.string).to include("A\t[\"∙\", \"∙\"]\n")
+    Table.new(output,ROWS,COLUMNS).display_grid('∙')
+    expect(output.string).to include("A\t[\"∙\", \"∙\", \"∙\"]\n")
   end
 
   it 'creates a table with x axis numbers' do 
-    Table.new(output,2,2,ROWS,COLUMNS).display_grid('∙')
+    Table.new(output,ROWS,COLUMNS).display_grid('∙')
     expect(output.string).to include("[\"1\", \"2\"")
   end
 
   it 'creates a 3 by 3 table with x and y axes' do
-    Table.new(output,3,3,ROWS,COLUMNS).display_grid('∙')
+    Table.new(output,ROWS,COLUMNS).display_grid('∙')
     expect(output.string).to include("[\"1\", \"2\", \"3\"]\n")
   end
 end

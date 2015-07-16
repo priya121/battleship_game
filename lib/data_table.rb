@@ -1,7 +1,5 @@
 class Table
-  def initialize(output,height,width,rows,columns)
-    @height = height
-    @width = width
+  def initialize(output,rows,columns)
     @output = output
     @rows = rows
     @columns = columns
@@ -9,7 +7,7 @@ class Table
 
 
   def display_grid(cells)
-    grid = Array.new(@height) {Array.new(@width,cells)}
+    grid = Array.new(@rows.size) {Array.new(@columns.size,cells)}
     @output.print "\t"
     @output.print @columns
     @output.puts "\n"

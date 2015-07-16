@@ -13,7 +13,7 @@ class Table
   def player_guess
     @output.puts "Guess a coordinate:\n"
     guess = @input.gets
-   @output.puts  display_table(player_one_move(Grid.new(2,2,@grid).target(guess)))
+    @output.puts  display_table(player_one_move(Grid.new(2,2,@grid).target(guess)))
   end
 
 

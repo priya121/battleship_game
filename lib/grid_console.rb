@@ -13,7 +13,7 @@ class Console
   def player_guess
     @output.puts "Guess a coordinate:\n"
     guess = @input.gets
-    display(Grid.new(2,2,@grid).target(guess))
+    display(Grid.new(2,2,@grid).target(guess)).inspect
   end
 
   def display(guessed)

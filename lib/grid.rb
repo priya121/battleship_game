@@ -1,6 +1,11 @@
 class Grid
+  EMPTY = "E"
+  MISS = "M"
+  HIT = "H"
+  SHIP = "S"
   attr_accessor :rows,:columns
   attr_reader :cells
+
   def initialize(rows,columns,cells)
     @rows = rows
     @columns = columns
@@ -10,7 +15,7 @@ class Grid
   def self.generate_grid(size)
     grid = []
     (0..size - 1). each do |cell|
-      rand = ["E","S"].sample
+      rand = [EMPTY,SHIP].sample
       grid << rand
     end
     grid
@@ -23,16 +28,16 @@ class Grid
   end
 
   def place_ship(grid)
-    @cells[grid] = "S"
+    @cells[grid] = SHIP
     @cells
   end
 
   def target(guess)
     index = guess.split(//)[1].to_i - 1
-    if @cells[index] != "S" 
-      @cells[index] = "M"
-    elsif @cells[index] == "S"
-      @cells[index] = "H"
+    if @cells[index] != SHIP
+      @cells[index] = MISS
+    elsif @cells[index] == SHIP
+      @cells[index] = HIT
     end
     @cells
   end

@@ -32,6 +32,20 @@ class Grid
     @cells
   end
 
+  def player_one_move(guessed)
+    coordinates_after_guess = []
+    guessed.each_with_index do |cell,index|
+      if cell == EMPTY || cell == SHIP
+        coordinates_after_guess << "∙"
+      elsif cell == MISS
+        coordinates_after_guess << "◦"
+      elsif cell == HIT
+        coordinates_after_guess << "HIT"
+      end
+    end
+    coordinates_after_guess
+  end
+
   def target(guess)
     index = guess.split(//)[1].to_i - 1
     if @cells[index] != SHIP

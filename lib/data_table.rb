@@ -13,22 +13,7 @@ class Table
   def player_guess
     @output.puts "Guess a coordinate:\n"
     guess = @input.gets
-    @output.puts display_table(player_one_move(Grid.new(2,2,@grid).target(guess)))
-  end
-
-
-  def player_one_move(guessed)
-    coordinates_after_guess = []
-    guessed.each_with_index do |cell,index|
-      if cell == "E" || cell == "S"
-        coordinates_after_guess << "∙"
-      elsif cell == "M"
-        coordinates_after_guess << "◦"
-      elsif cell == "H"
-        coordinates_after_guess << "HIT"
-      end
-    end
-    coordinates_after_guess
+    @output.puts display_table(Grid.new(2,2,@grid).player_one_move(Grid.new(2,2,@grid).target(guess)))
   end
 
   def display_table(cells)

@@ -2,7 +2,7 @@ require 'data_table'
 
 describe Table do 
   let(:output) {StringIO.new('')}
-  let(:input) {}
+
     COLUMNS = ['1','2','3']
     ROWS = ['A','B','C']
 

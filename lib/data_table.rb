@@ -7,13 +7,6 @@ class Table
     @columns = columns
   end
 
-  def table_grid(height,width)
-    cells = []
-    (width*height).times do |output_rows|
-         cells << []
-      end
-    cells
-  end
 
   def display_grid(cells)
     grid = Array.new(@height) {Array.new(@width,cells)}

@@ -18,9 +18,6 @@ class Console
 
   def display(guessed)
     guessed.each_with_index do |cell,index|
-      if (index)% @width == 0
-        @output.puts "\n"
-      end
       if cell == "E" || cell == "S"
         @output.print"∙"
       elsif cell == "M"

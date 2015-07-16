@@ -2,6 +2,7 @@ require 'data_table'
 
 describe Table do 
   let(:output) {StringIO.new('')}
+  let(:input) {}
     COLUMNS = ['1','2','3']
     ROWS = ['A','B','C']
 
@@ -11,7 +12,7 @@ describe Table do
   end
 
   it 'creates the table with coordinates' do 
-    Table.new(output,1,1,ROWS,COLUMNS).display_grid('∙')
+    Table.new(output,1,1,ROWS,COLUMNS).display_grid(['∙'])
     expect(output.string).to include("[\"∙\"]")
   end
 
@@ -27,7 +28,7 @@ describe Table do
 
   it 'creates a 3 by 3 table with x and y axes' do
     Table.new(output,3,3,ROWS,COLUMNS).display_grid('∙')
-    expect(output.string).to include("[\"1\", \"2\", \"3\"]\n")
+    expect(output.string).to include("[\"1\",\"2\",\"3\"]\n")
   end
-
 end
+

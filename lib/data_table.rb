@@ -16,7 +16,7 @@ class Table
   end
 
   def display_grid(cells)
-    grid = Array.new(@height,cells){Array.new(@width,cells)}
+    grid = Array.new(@height) {Array.new(@width,cells)}
     @output.print "\t"
     @output.print @columns
     @output.puts "\n"

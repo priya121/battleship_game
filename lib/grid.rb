@@ -33,7 +33,7 @@ class Grid
     @output.print @row_label[0]
     cells.each_with_index do |cell, index|
       @output.print "\t"
-      @output.print cell.center(6)
+      @output.print cell.center(5)
       if last_cell_in_row?(index)
         @output.puts "\s"
         @output.print row_label_for_cell(index)

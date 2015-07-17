@@ -1,4 +1,4 @@
-require 'data_table'
+require 'grid'
 
 describe Grid do 
   let(:input) {StringIO.new('A2')}

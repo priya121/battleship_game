@@ -1,4 +1,4 @@
-class Grid
+class Battleship
   EMPTY = "E"
   MISS = "M"
   HIT = "H"
@@ -23,8 +23,8 @@ class Grid
 
   def self.random_grid(width,height)
     cells = generate_grid(width*height)
-    grid = Grid.new(width,height,cells)
-    return grid
+    grid = Battleship.new(width,height,cells)
+    grid
   end
 
   def place_ship(grid)
@@ -34,7 +34,7 @@ class Grid
 
   def player_one_move(guessed)
     coordinates_after_guess = []
-    guessed.each_with_index do |cell,index|
+    guessed.each do |cell|
       if cell == EMPTY || cell == SHIP
         coordinates_after_guess << "∙"
       elsif cell == MISS

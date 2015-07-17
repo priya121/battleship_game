@@ -1,6 +1,6 @@
-require 'grid'
+require 'battleship'
 
-class Table
+class Grid
   def initialize(input,output,rows,columns,width,grid)
     @input = input
     @output = output
@@ -15,20 +15,25 @@ class Table
   end
 
   def player_guess
-    guess = @input.gets
-    @output.puts display_table(Grid.new(2,2,@grid).player_one_move(Grid.new(2,2,@grid).target(guess)))
+    first_move = (Battleship.new(2,2,@grid).player_one_move(check_ship_in_coordinate?))
+    display_table(first_move)
+  end
+
+  def check_ship_in_coordinate?
+    coordinate_guess = @input.gets
+    Battleship.new(2,2,@grid).target(coordinate_guess)
   end
 
   def display_table(cells)
     @output.print "\t"
     @column_label.each do |number|
-      @output.print number.ljust(24)
+      @output.print number.center(7)
     end
     @output.puts "\n"
     @output.print @row_label[0]
     cells.each_with_index do |cell, index|
       @output.print "\t"
-      @output.print cell.ljust(20)
+      @output.print cell.center(6)
       if last_cell_in_row?(index)
         @output.puts "\s"
         @output.print row_label_for_cell(index)

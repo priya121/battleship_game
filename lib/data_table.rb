@@ -9,7 +9,6 @@ class Table
     @grid = grid
   end
 
-
   def start
     @output.puts "Guess a coordinate:\n"
     player_guess

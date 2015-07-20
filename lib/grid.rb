@@ -15,7 +15,7 @@ class Grid
   end
 
   def player_guess
-    first_move = (Battleship.new(@grid).player_one_move(check_ship_in_coordinate?))
+    first_move = player_one_move(check_ship_in_coordinate?)
     display_table(first_move)
   end
 
@@ -63,5 +63,32 @@ class Grid
     @row_label[row_label_index]
   end
 
+  def player_one_move(guessed)
+    @coordinates_after_guess = []
+    guessed.each do |cell|
+      coordinate_unchanged?(cell)
+      coordinate_empty?(cell)
+      coordinate_ship_hit?(cell)
+    end
+    @coordinates_after_guess
+  end
+
+  def coordinate_unchanged?(cell)
+    if cell == EMPTY || cell == SHIP
+      @coordinates_after_guess << "∙"
+    end
+  end
+
+  def coordinate_empty?(cell)
+    if cell == MISS 
+      @coordinates_after_guess << "◦"
+    end
+  end
+
+  def coordinate_ship_hit?(cell)
+    if cell == HIT
+      @coordinates_after_guess << "HIT"
+    end
+  end
 end
 

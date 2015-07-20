@@ -47,6 +47,12 @@ describe Grid do
       expect(table[1]).to include("1","2")
       expect(table[2]).to include("∙")
     end
+    
+    it 'changes empty, miss/ship or hit to coordinates' do 
+      initial_grid = ["E","E","E","E"]
+      player_coordinate_guess =  Battleship.new(initial_grid).target('A1')
+      expect(Grid.new(input,output,ROWS,COLUMNS,grid).player_one_move(player_coordinate_guess)).to eq(["◦", "∙", "∙", "∙"])
+    end
   end
 
   describe 'three by three grid' do 

@@ -25,17 +25,31 @@ class Battleship
   end
 
   def player_one_move(guessed)
-    coordinates_after_guess = []
+    @coordinates_after_guess = []
     guessed.each do |cell|
-      if cell == EMPTY || cell == SHIP
-        coordinates_after_guess << "∙"
-      elsif cell == MISS
-        coordinates_after_guess << "◦"
-      elsif cell == HIT
-        coordinates_after_guess << "HIT"
-      end
+      coordinate_unchanged?(cell)
+      coordinate_empty?(cell)
+      coordinate_contains_ship(cell)
     end
-    coordinates_after_guess
+    @coordinates_after_guess
+  end
+
+  def coordinate_unchanged?(cell)
+    if  cell == EMPTY || cell == SHIP
+      @coordinates_after_guess << "∙"
+    end
+  end
+
+  def coordinate_empty?(cell)
+    if cell == MISS
+      @coordinates_after_guess << "◦"
+    end
+  end
+
+  def coordinate_contains_ship(cell)
+    if cell == HIT
+      @coordinates_after_guess << "HIT"
+    end
   end
 
   def target(guess)

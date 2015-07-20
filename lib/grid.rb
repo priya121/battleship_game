@@ -25,22 +25,37 @@ class Grid
   end
 
   def display_table(cells)
+    display_columns
+    display_rows(cells)
+    @output.puts "\n"
+  end
+
+  def display_columns
     @output.print "\t"
     @column_label.each do |number|
       @output.print number.center(7)
     end
     @output.puts "\n"
-    @output.print @row_label[0]
+  end
 
+  def display_rows(cells)
+    @output.print @row_label[0]
     cells.each_with_index do |cell, index|
       @output.print "\t"
       @output.print cell.center(5)
+      new_row?(index)
+    end
+  end
+
+  def new_row?(index)
       if last_cell_in_row?(index)
         @output.puts "\s"
         @output.print row_label_for_cell(index)
       end
-    end
-    @output.puts "\n"
+  end
+
+  def last_cell_in_row?(index)
+    (index + 1) % @column_label.size == 0
   end
 
   def row_label_for_cell(index)
@@ -48,8 +63,5 @@ class Grid
     @row_label[row_label_index]
   end
 
-  def last_cell_in_row?(index)
-    (index + 1) % @column_label.size == 0
-  end
 end
 

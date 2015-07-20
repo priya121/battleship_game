@@ -29,9 +29,19 @@ class Battleship
   def target(guess)
     index = guess.split(//)[1].to_i - 1
     letter = guess.split(//)[0]
-      if letter == @row_label[1] 
-        index += index + @column_label.length - 1
+    @row_label.each_with_index do |match,i|
+      if letter == match
+        index += @column_label.length * index
+        B2 = index 4 
+        B3 = index 5
+        B1 = index 3
+        
+
+        C2 = index 9
+        C3 = index 10 
+        C1 = index 8
       end
+    end
       if @cells[index] != SHIP 
         @cells[index] = MISS
       else @cells[index] == SHIP

@@ -1,6 +1,11 @@
 require 'battleship'
 
 class Grid
+  EMPTY = "E"
+  MISS = "M"
+  HIT = "H"
+  SHIP = "S"
+
   def initialize(input,output,rows,columns,grid)
     @input = input
     @output = output
@@ -17,11 +22,16 @@ class Grid
   def player_guess
     first_move = player_one_move(check_ship_in_coordinate?)
     display_table(first_move)
+      if first_move.to_s.include?("HIT")
+        @output.puts "You sunk my battleship."
+      else
+        @output.puts "You missed."
+      end
   end
 
   def check_ship_in_coordinate?
-    coordinate_guess = @input.gets
-    Battleship.new(@grid).target(coordinate_guess)
+    coordinate_guess = @input.gets.to_s
+    Battleship.new(@grid,@row_label,@column_label).target(coordinate_guess)
   end
 
   def display_table(cells)

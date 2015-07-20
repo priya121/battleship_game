@@ -6,9 +6,7 @@ class Battleship
   attr_accessor :rows,:columns
   attr_reader :cells
 
-  def initialize(rows,columns,cells)
-    @rows = rows
-    @columns = columns
+  def initialize(cells)
     @cells = cells
   end
 
@@ -18,12 +16,6 @@ class Battleship
       rand = [EMPTY,SHIP].sample
       grid << rand
     end
-    grid
-  end
-
-  def self.random_grid(width,height)
-    cells = generate_grid(width*height)
-    grid = Battleship.new(width,height,cells)
     grid
   end
 

@@ -1,7 +1,7 @@
 require 'battleship'
 
 class Grid
-  def initialize(input,output,rows,columns,width,grid)
+  def initialize(input,output,rows,columns,grid)
     @input = input
     @output = output
     @row_label = rows
@@ -15,13 +15,13 @@ class Grid
   end
 
   def player_guess
-    first_move = (Battleship.new(2,2,@grid).player_one_move(check_ship_in_coordinate?))
+    first_move = (Battleship.new(@grid).player_one_move(check_ship_in_coordinate?))
     display_table(first_move)
   end
 
   def check_ship_in_coordinate?
     coordinate_guess = @input.gets
-    Battleship.new(2,2,@grid).target(coordinate_guess)
+    Battleship.new(@grid).target(coordinate_guess)
   end
 
   def display_table(cells)
@@ -31,6 +31,7 @@ class Grid
     end
     @output.puts "\n"
     @output.print @row_label[0]
+
     cells.each_with_index do |cell, index|
       @output.print "\t"
       @output.print cell.center(5)

@@ -2,7 +2,7 @@
 
 $LOAD_PATH.unshift File.dirname(__FILE__) + '/../lib'
 
-require 'data_table'
+require 'grid'
 require 'curses'
 
 grid = Battleship.new(2,2,["E","E","E","E","E","E","E","E","E"]).place_ship(2)

@@ -29,7 +29,7 @@ class Battleship
     guessed.each do |cell|
       coordinate_unchanged?(cell)
       coordinate_empty?(cell)
-      coordinate_contains_ship(cell)
+      coordinate_ship_hit?(cell)
     end
     @coordinates_after_guess
   end
@@ -46,7 +46,7 @@ class Battleship
     end
   end
 
-  def coordinate_contains_ship(cell)
+  def coordinate_ship_hit?(cell)
     if cell == HIT
       @coordinates_after_guess << "HIT"
     end

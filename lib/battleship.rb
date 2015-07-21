@@ -3,6 +3,8 @@ class Battleship
   MISS = "M"
   HIT = "H"
   SHIP = "S"
+  DESTROYER = "D"
+
   attr_accessor :row_label, :column_label
   attr_reader :cells
 
@@ -27,8 +29,8 @@ class Battleship
   end
 
   def place_destroyer(grid)
-    @cells[grid]  = SHIP
-    @cells[grid+1] = SHIP
+    @cells[grid]  = DESTROYER
+    @cells[grid+1] = DESTROYER
     @cells
   end
 
@@ -44,16 +46,17 @@ class Battleship
         column_number += (@column_label.length * i) 
       end
     end
-    ship_hit?(column_number)
+     hit_or_miss?(column_number)
   end
 
-  def ship_hit?(column_number)
-    if @cells[column_number] != SHIP 
-      @cells[column_number] = MISS
-    else @cells[column_number] == SHIP
+  def hit_or_miss?(column_number)
+    if @cells[column_number] == SHIP || @cells[column_number] == DESTROYER
       @cells[column_number] = HIT
+    elsif @cells[column_number] != SHIP || @cells[column_number] != DESTROYER
+      @cells[column_number] = MISS
     end
     @cells
   end
 
 end
+

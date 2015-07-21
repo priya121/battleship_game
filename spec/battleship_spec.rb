@@ -5,6 +5,8 @@ describe Battleship  do
   MISS = "M"
   HIT = "H"
   SHIP = "S"
+  DESTROYER = "D"
+
   initial_grid = [EMPTY,EMPTY,EMPTY,EMPTY]
   grid_ship_placed = [EMPTY,EMPTY,SHIP,EMPTY]
 
@@ -26,7 +28,7 @@ describe Battleship  do
 
     it 'has 1 ship as two horizontal coordinates' do
       initial_grid = [EMPTY,EMPTY,EMPTY,EMPTY]
-      grid_ship_placed = [SHIP,SHIP,EMPTY,EMPTY]
+      grid_ship_placed = [DESTROYER,DESTROYER,EMPTY,EMPTY]
       expect(Battleship.new(initial_grid,row_label,column_label).place_destroyer(0)).to eq(grid_ship_placed)
     end
   end
@@ -36,13 +38,12 @@ describe Battleship  do
       initial_grid = ["E","E","E","E"]
       ship_placed = (Battleship.new(initial_grid,row_label,column_label).place_ship(1))
       expect(Battleship.new(ship_placed,row_label,column_label).target('A1')).to eq(["M","S","E","E"])
-      expect(Battleship.new(ship_placed,row_label,column_label).target('A2')).to eq(["M","H","E","E"])
     end
 
     it 'changes a coordinate in the first row with a ship to a hit' do 
-      initial_grid = ["E","E","E","E"]
+      initial_grid = ["E","S","E","E"]
       ship_placed = (Battleship.new(initial_grid,row_label,column_label).place_ship(1))
-      expect(Battleship.new(ship_placed,row_label,column_label).target('A2')).to eq(["E","H","E","E"])
+      expect(Battleship.new(initial_grid,row_label,column_label).target('A2')).to eq(["E","H","E","E"])
     end
 
     it 'changes a coordinate with a ship in second row hit' do 
@@ -58,6 +59,13 @@ describe Battleship  do
       ship_placed = (Battleship.new(initial_grid,row_label,column_label).place_ship(3))
       expect(Battleship.new(ship_placed,row_label,column_label).target('B2')).to eq(["E","E","E","S","M","E","E","E","E"])
       expect(Battleship.new(ship_placed,row_label,column_label).target('C2')).to eq(["E","E","E","S","M","E","E","M","E"])
+    end
+
+    it 'changes a coordinate when a destroyer is hit' do 
+      initial_grid = ["E","E","E","E"]
+      ship_placed = (Battleship.new(initial_grid,row_label,column_label).place_destroyer(1))
+      expect(Battleship.new(ship_placed,row_label,column_label).target('A1')).to eq(["M","D","D","E"])
+      expect(Battleship.new(ship_placed,row_label,column_label).target('A2')).to eq(["M","H","D","E"])
     end
   end
 

@@ -3,7 +3,7 @@ class Battleship
   MISS = "M"
   HIT = "H"
   SHIP = "S"
-  attr_accessor :rows, :columns
+  attr_accessor :row_label, :column_label
   attr_reader :cells
 
   def initialize(cells,row_label,column_label)
@@ -27,17 +27,27 @@ class Battleship
   end
 
   def target(guess)
-    index = guess.split(//)[1].to_i - 1
-    letter = guess.split(//)[0]
-      if letter == @row_label[1] 
-        index += index + @column_label.length - 1
+    column_number = guess.split(//)[1].to_i - 1
+    row_letter = guess.split(//)[0]
+    index_for_given_coordinate(row_letter,column_number)
+  end
+
+  def index_for_given_coordinate(row_letter,column_number)
+    @row_label.each_with_index do |row,i|
+      if row_letter == row
+        column_number += (@column_label.length * i) 
       end
-      if @cells[index] != SHIP 
-        @cells[index] = MISS
-      else @cells[index] == SHIP
-        @cells[index] = HIT
-      end
+    end
+    ship_hit?(column_number)
+  end
+
+  def ship_hit?(column_number)
+    if @cells[column_number] != SHIP 
+      @cells[column_number] = MISS
+    else @cells[column_number] == SHIP
+      @cells[column_number] = HIT
+    end
     @cells
   end
-end
 
+end

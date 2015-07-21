@@ -10,6 +10,7 @@ describe Battleship  do
   
   let(:row_label) {['A','B']}
   let(:column_label) {['1','2']}
+
   describe '#target' do 
     it 'has 0 rows and 0 columns' do 
       expect(Battleship.new(initial_grid,row_label,column_label).cells).to eq(initial_grid)
@@ -48,6 +49,7 @@ describe Battleship  do
       initial_grid = ["E","E","E","E","E","E","E","E","E"]
       ship_placed = (Battleship.new(initial_grid,row_label,column_label).place_ship(3))
       expect(Battleship.new(ship_placed,row_label,column_label).target('B2')).to eq(["E","E","E","S","M","E","E","E","E"])
+      expect(Battleship.new(ship_placed,row_label,column_label).target('C2')).to eq(["E","E","E","S","M","E","E","M","E"])
     end
 
     it 'generates 4 random cells' do 

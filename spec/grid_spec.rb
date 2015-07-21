@@ -75,7 +75,6 @@ describe Grid do
 
     it 'asks for another guess when miss' do 
       input = StringIO.new('A1\n')
-      output = StringIO.new("")
       grid = Battleship.new(["E","E","E","E","E","E","E","E","E"],rows,columns).place_ship(1)
       Grid.new(input,output,rows,columns,grid).start
       expect(output.string).to include("You missed.")
@@ -83,10 +82,19 @@ describe Grid do
 
     it 'asks for another guess when miss' do 
       input = StringIO.new('B2\n')
-      output = StringIO.new("")
       grid = Battleship.new(["E","E","E","E","E","E","E","E","E"],rows,columns).place_ship(4)
       Grid.new(input,output,rows,columns,grid).start
-      expect(output.string).to include("You sunk my battleship.")
+      expect(output.string).to include("You sunk a battleship.")
+    end
+
+    it 'exits the game when two hits have been made' do 
+      input = StringIO.new("B1\nB2\n")
+      grid = Battleship.new(["E","E","E","E","E","E","E","E","E"],rows,columns)
+      grid.place_ship(3)
+      final_grid = grid.place_ship(4)
+      Grid.new(input,output,rows,columns,final_grid).start
+      expect(output.string).to include("You win.")
+      expect(output.string).to include("You sunk all the battleships.")
     end
   end
 end

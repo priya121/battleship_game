@@ -22,11 +22,27 @@ class Grid
   def player_guess
     first_move = player_one_move(check_ship_in_coordinate?)
     display_table(first_move)
-      if first_move.to_s.include?("HIT")
-        @output.puts "You sunk my battleship."
-      else
-        @output.puts "You missed."
+    if first_move.to_s.include?("HIT")
+      @output.puts "You sunk a battleship."
+    else
+      @output.puts "You missed."
+    end
+    player_win?(first_move)
+  end
+
+  def player_win?(first_move)
+    hits = []
+    first_move.each do |cell|
+      if cell ==  "HIT"
+        hits << cell 
       end
+    end
+    if hits.length == 1
+      @output.puts "You sunk all the battleships."
+      @output.puts "You win."
+    else 
+      @output.puts "Try again."
+    end
   end
 
   def check_ship_in_coordinate?
@@ -58,10 +74,10 @@ class Grid
   end
 
   def new_row?(index)
-      if last_cell_in_row?(index)
-        @output.puts "\s"
-        @output.print row_label_for_cell(index)
-      end
+    if last_cell_in_row?(index)
+      @output.puts "\s"
+      @output.print row_label_for_cell(index)
+    end
   end
 
   def last_cell_in_row?(index)

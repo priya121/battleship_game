@@ -26,6 +26,12 @@ class Battleship
     @cells
   end
 
+  def place_destroyer(grid)
+    @cells[grid]  = SHIP
+    @cells[grid+1] = SHIP
+    @cells
+  end
+
   def target(guess)
     column_number = guess.split(//)[1].to_i - 1
     row_letter = guess.split(//)[0]

@@ -8,7 +8,10 @@ require 'grid'
 COLUMNS = ['1','2','3']
 ROWS = ['A','B','C']
 
-grid = Battleship.new(["E","E","E","E","E","E","E","E","E"],ROWS,COLUMNS).place_ship(2)
+grid = Battleship.new(["E","E","E","E","E","E","E","E","E"],ROWS,COLUMNS)
 
-Grid.new(Kernel,Kernel,ROWS,COLUMNS,grid).start
+grid.place_ship(2)
+final_grid = grid.place_ship(3)
+
+Grid.new(Kernel,Kernel,ROWS,COLUMNS,final_grid).start
 

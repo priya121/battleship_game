@@ -7,11 +7,11 @@ describe Battleship  do
   SHIP = "S"
   initial_grid = [EMPTY,EMPTY,EMPTY,EMPTY]
   grid_ship_placed = [EMPTY,EMPTY,SHIP,EMPTY]
-  
+
   let(:row_label) {['A','B']}
   let(:column_label) {['1','2']}
 
-  describe '#target' do 
+  describe '#place_ship' do 
     it 'has 0 rows and 0 columns' do 
       expect(Battleship.new(initial_grid,row_label,column_label).cells).to eq(initial_grid)
     end
@@ -24,6 +24,14 @@ describe Battleship  do
       expect(Battleship.new(initial_grid,row_label,column_label).place_ship(2)).to eq(grid_ship_placed)
     end
 
+    it 'has 1 ship as two horizontal coordinates' do
+      initial_grid = [EMPTY,EMPTY,EMPTY,EMPTY]
+      grid_ship_placed = [SHIP,SHIP,EMPTY,EMPTY]
+      expect(Battleship.new(initial_grid,row_label,column_label).place_destroyer(0)).to eq(grid_ship_placed)
+    end
+  end
+
+  describe '#target' do 
     it 'changes an empty coordinate to a miss' do
       initial_grid = ["E","E","E","E"]
       ship_placed = (Battleship.new(initial_grid,row_label,column_label).place_ship(1))
@@ -51,15 +59,17 @@ describe Battleship  do
       expect(Battleship.new(ship_placed,row_label,column_label).target('B2')).to eq(["E","E","E","S","M","E","E","E","E"])
       expect(Battleship.new(ship_placed,row_label,column_label).target('C2')).to eq(["E","E","E","S","M","E","E","M","E"])
     end
+  end
 
+  describe '#generate_grid' do
     it 'generates 4 random cells' do 
-     grid = Battleship.generate_grid(4) 
-     expect(grid.size).to eq(4)
+      grid = Battleship.generate_grid(4) 
+      expect(grid.size).to eq(4)
     end
 
     it 'generates 10 random cells' do 
-     grid = Battleship.generate_grid(10) 
-     expect(grid.size).to eq(10)
+      grid = Battleship.generate_grid(10) 
+      expect(grid.size).to eq(10)
     end
   end
 end

@@ -16,6 +16,12 @@ describe Grid do
       expect(table[0]).to include("1","2")
       expect(table[1]).to include("A")
     end
+    
+    it 'displays a grid at the beginning of the game' do 
+      Grid.new(input,output,ROWS,COLUMNS,coordinates).start
+      expect(table[1]).to include("1","2")
+      expect(table[2]).to include('A')
+    end
 
     it 'asks the user to guess a coordinate' do 
       Grid.new(input,output,ROWS,COLUMNS,grid).start
@@ -73,24 +79,25 @@ describe Grid do
     rows = ['A','B','C']
     columns = ['1','2','3']
 
-    it 'asks for another guess when miss' do 
-      input = StringIO.new('A1\n')
-      grid = Battleship.new(["E","E","E","E","E","E","E","E","E"],rows,columns).place_ship(1)
+    xit 'asks for another guess when miss' do 
+      input = StringIO.new("A1\nA2\n")
+      grid = Battleship.new(["E","E","E","E","E","E","E","E","E"],rows,columns)
+      grid.place_ship(1)
+      grid.place_ship(0)
       Grid.new(input,output,rows,columns,grid).start
       expect(output.string).to include("You missed.")
     end
 
-    it 'asks for another guess when miss' do 
+    it 'tells the user they sunk a battleship' do 
       input = StringIO.new('B2\n')
       grid = Battleship.new(["E","E","E","E","E","E","E","E","E"],rows,columns).place_ship(4)
       Grid.new(input,output,rows,columns,grid).start
-      expect(output.string).to include("You sunk a battleship.")
+      expect(output.string).to include("You sunk '1' battleship.")
     end
 
     it 'exits the game when two hits have been made' do 
-      input = StringIO.new("B1\nB2\n")
+      input = StringIO.new("B2\n")
       grid = Battleship.new(["E","E","E","E","E","E","E","E","E"],rows,columns)
-      grid.place_ship(3)
       final_grid = grid.place_ship(4)
       Grid.new(input,output,rows,columns,final_grid).start
       expect(output.string).to include("You win.")

@@ -1,125 +1,108 @@
-require 'battleship'
-
 class Grid
   EMPTY = "E"
   MISS = "M"
   HIT = "H"
+  HIT_DESTROYER = "HD"
   SHIP = "S"
+  DESTROYER = "D"
 
-  def initialize(input,output,rows,columns,grid)
-    @input = input
-    @output = output
-    @row_label = rows
-    @column_label = columns
-    @grid = grid
+  attr_accessor :row_label, :column_label
+  attr_reader :cells
+
+  def initialize(cells,row_label,column_label)
+    @cells = cells
+    @row_label = row_label
+    @column_label = column_label
   end
 
-  def start
-    @output.puts "Guess a coordinate:\n"
-    @hits = 0
-    player_guess
+  def self.generate_empty_cells(rows,columns)
+   @empty_grid = ''
+   empty_cells =  ("E" * (rows.size * columns.size))
+   @empty_grid << empty_cells
+   @empty_grid.split(//)
   end
 
-  def player_guess
-    first_move = player_one_move(check_ship_in_coordinate?)
-    display_table(first_move)
-    if first_move.to_s.include?("HIT")
-      @hits += 1
-    else
-      @output.puts "You missed."
+  def self.generate_grid(size)
+    grid = []
+    (0..size - 1). each do |cell|
+      rand = [EMPTY,SHIP].sample
+      grid << rand
     end
-      @output.puts "You sunk '#{@hits}' battleship."
-    exit_game
+    grid
   end
 
-  def exit_game
-    ship_index = []
-    @grid.each_with_index do |coordinate,index|
-      if coordinate == "S" || coordinate == "D"
-        ship_index << index
+  def place_ship(position)
+    @cells[position] = SHIP
+    @cells
+  end
+
+  def place_destroyer(position)
+    @cells[position] = DESTROYER
+    @cells[position+1] = DESTROYER
+    @cells
+  end
+
+  def target(guess)
+    column_number = guess.split(//)[1].to_i - 1
+    row_letter = guess.split(//)[0]
+    index_for_given_coordinate(row_letter,column_number)
+  end
+
+  def index_for_given_coordinate(row_letter,column_number)
+    @row_label.each_with_index do |row,i|
+      if row_letter == row
+        column_number += (@column_label.length * i) 
       end
     end
-    check_all_ships_hit(ship_index,@coordinate_guess)
+     hit_or_miss(column_number)
   end
 
-  def check_all_ships_hit(ship_index,coordinate_guess)
-    while ship_index.size != 0
-      player_guess
+  def hit_or_miss(column_number)
+    if @cells[column_number] == SHIP
+       @cells[column_number] = HIT
+    elsif @cells[column_number] == DESTROYER
+       @cells[column_number] = HIT_DESTROYER
+    elsif @cells[column_number] != SHIP || @cells[column_number] != DESTROYER
+      @cells[column_number] = MISS
     end
-      @output.puts "You sunk all the battleships."
-      @output.puts "You win."
-  end
-
-  def check_ship_in_coordinate?
-    @coordinate_guess = @input.gets.to_s
-    Battleship.new(@grid,@row_label,@column_label).target(@coordinate_guess)
-  end
-
-  def display_table(cells)
-    display_columns
-    display_rows(cells)
-    @output.puts "\n"
-  end
-
-  def display_columns
-    @output.print "\t"
-    @column_label.each do |number|
-      @output.print number.center(7)
-    end
-    @output.puts "\n"
-  end
-
-  def display_rows(cells)
-    @output.print @row_label[0]
-    cells.each_with_index do |cell, index|
-      @output.print "\t"
-      @output.print cell.center(5)
-      new_row?(index)
-    end
-  end
-
-  def new_row?(index)
-    if last_cell_in_row?(index)
-      @output.puts "\s"
-      @output.print row_label_for_cell(index)
-    end
-  end
-
-  def last_cell_in_row?(index)
-    (index + 1) % @column_label.size == 0
-  end
-
-  def row_label_for_cell(index)
-    row_label_index = ((index + 1) / @column_label.size) 
-    @row_label[row_label_index]
+    player_one_move(@cells)
   end
 
   def player_one_move(guessed)
     @coordinates_after_guess = []
     guessed.each do |cell|
-      coordinate_unchanged?(cell)
-      coordinate_empty?(cell)
-      coordinate_ship_hit?(cell)
+      coordinate_unchanged(cell)
+      coordinate_empty(cell)
+      coordinate_ship_hit(cell)
     end
-    @coordinates_after_guess
+     @coordinates_after_guess
   end
 
-  def coordinate_unchanged?(cell)
-    if cell == EMPTY || cell == SHIP
+  def coordinate_unchanged(cell)
+    if cell == EMPTY || cell == SHIP || cell == DESTROYER
       @coordinates_after_guess << "∙"
     end
   end
 
-  def coordinate_empty?(cell)
+  def coordinate_empty(cell)
     if cell == MISS 
       @coordinates_after_guess << "◦"
     end
   end
 
-  def coordinate_ship_hit?(cell)
-    if cell == HIT
+  def coordinate_ship_hit(cell)
+    if cell == HIT || cell == HIT_DESTROYER
       @coordinates_after_guess << "HIT"
     end
   end
-end
 
+  def ships_left_in_grid
+    total_ships = []
+    @cells.each_with_index do |coordinate,index|
+      if coordinate == "S" || coordinate == "D"
+        total_ships << index
+      end
+    end
+    total_ships.size
+  end
+end

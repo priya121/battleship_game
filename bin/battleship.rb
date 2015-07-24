@@ -11,7 +11,7 @@ ROWS = ['A','B','C']
 grid = Battleship.new(["E","E","E","E","E","E","E","E","E"],ROWS,COLUMNS)
 
 grid.place_ship(1)
-grid.place_ship(2)
+grid.place_destroyer(7)
 final_grid = grid.place_ship(3)
 
 Grid.new(Kernel,Kernel,ROWS,COLUMNS,final_grid).start

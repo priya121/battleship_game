@@ -73,7 +73,7 @@ describe Game  do
         initial_grid = ["E","E","E","E"]
         ship_placed = (Game.new(input,initial_grid,row_label,column_label).place_destroyer(1))
         expect(Game.new(input,ship_placed,row_label,column_label).target(0)).to eq(["◦", "∙", "∙", "∙"])
-        expect(Game.new(input,ship_placed,row_label,column_label).target(1)).to eq(["◦", "HIT", "∙", "∙"])
+        expect(Game.new(input,ship_placed,row_label,column_label).target(1)).to eq(["◦", "HIT D", "∙", "∙"])
       end
 
       it 'changes ship and empty letters to empty icons that can be shown in the display before a guess is made' do 

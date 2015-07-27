@@ -95,6 +95,7 @@ describe Grid do
       grid_with_destroyer = grid_with_ship.place_destroyer(1)
       Grid.new(input,output,rows,columns,grid_with_destroyer).start
       expect(output.string).to include("You sunk all the Battleships. You win")
+      expect(output.string).to include("You sunk a destroyer.")
     end
 
     it 'exits the game when all hits have been made' do 

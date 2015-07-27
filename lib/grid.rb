@@ -24,6 +24,9 @@ class Grid
     display_table(grid_after_player_move)
     if grid_after_player_move.to_s.include?("HIT")
       @output.puts "You sunk #{grid_after_player_move.count("HIT")} battleships."
+    end
+    if grid_after_player_move.count("HIT D") == 2
+      @output.puts "You sunk a destroyer."
     else
       @output.puts "You missed."
       @output.puts "Guess again"

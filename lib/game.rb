@@ -66,6 +66,7 @@ class Game
       coordinate_unchanged(cell)
       coordinate_empty(cell)
       coordinate_ship_hit(cell)
+      coordinate_destroyer_hit(cell)
     end
      @coordinates_after_guess
   end
@@ -83,8 +84,14 @@ class Game
   end
 
   def coordinate_ship_hit(cell)
-    if cell == HIT || cell == HIT_DESTROYER
+    if cell == HIT 
       @coordinates_after_guess << "HIT"
+    end
+  end
+
+  def coordinate_destroyer_hit(cell)
+    if cell == HIT_DESTROYER
+      @coordinates_after_guess << "HIT D"
     end
   end
 

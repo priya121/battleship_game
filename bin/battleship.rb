@@ -2,7 +2,7 @@
 
 $LOAD_PATH.unshift File.dirname(__FILE__) + '/../lib'
 
-require 'game_logic'
+require 'game'
 require 'grid'
 
 COLUMNS = ['1','2','3','4','5']

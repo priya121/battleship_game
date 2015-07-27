@@ -1,4 +1,4 @@
-require 'game_logic'
+require 'game'
 
 class Grid
   EMPTY = "E"

@@ -1,108 +1,85 @@
+require 'game_logic'
+
 class Grid
   EMPTY = "E"
   MISS = "M"
   HIT = "H"
-  HIT_DESTROYER = "HD"
   SHIP = "S"
   DESTROYER = "D"
 
-  attr_accessor :row_label, :column_label
-  attr_reader :cells
-
-  def initialize(cells,row_label,column_label)
+  def initialize(input,output,rows,columns,cells)
+    @input = input
+    @output = output
+    @row_label = rows
+    @column_label = columns
     @cells = cells
-    @row_label = row_label
-    @column_label = column_label
+    @player = Player.new(@input,@row_label,@column_label)
+    @grid = Game.new(@input,@cells,@row_label,@column_label) 
   end
 
-  def self.generate_empty_cells(rows,columns)
-   @empty_grid = ''
-   empty_cells =  ("E" * (rows.size * columns.size))
-   @empty_grid << empty_cells
-   @empty_grid.split(//)
-  end
-
-  def self.generate_grid(size)
-    grid = []
-    (0..size - 1). each do |cell|
-      rand = [EMPTY,SHIP].sample
-      grid << rand
-    end
-    grid
-  end
-
-  def place_ship(position)
-    @cells[position] = SHIP
-    @cells
-  end
-
-  def place_destroyer(position)
-    @cells[position] = DESTROYER
-    @cells[position+1] = DESTROYER
-    @cells
-  end
-
-  def target(guess)
-    column_number = guess.split(//)[1].to_i - 1
-    row_letter = guess.split(//)[0]
-    index_for_given_coordinate(row_letter,column_number)
-  end
-
-  def index_for_given_coordinate(row_letter,column_number)
-    @row_label.each_with_index do |row,i|
-      if row_letter == row
-        column_number += (@column_label.length * i) 
-      end
-    end
-     hit_or_miss(column_number)
-  end
-
-  def hit_or_miss(column_number)
-    if @cells[column_number] == SHIP
-       @cells[column_number] = HIT
-    elsif @cells[column_number] == DESTROYER
-       @cells[column_number] = HIT_DESTROYER
-    elsif @cells[column_number] != SHIP || @cells[column_number] != DESTROYER
-      @cells[column_number] = MISS
-    end
-    player_one_move(@cells)
-  end
-
-  def player_one_move(guessed)
-    @coordinates_after_guess = []
-    guessed.each do |cell|
-      coordinate_unchanged(cell)
-      coordinate_empty(cell)
-      coordinate_ship_hit(cell)
-    end
-     @coordinates_after_guess
-  end
-
-  def coordinate_unchanged(cell)
-    if cell == EMPTY || cell == SHIP || cell == DESTROYER
-      @coordinates_after_guess << "∙"
+  def ask_player_guess
+    @output.puts "Guess a coordinate:\n"
+    index_after_player_move = @player.give_coordinate
+    grid_after_player_move = @grid.target(index_after_player_move)
+    display_table(grid_after_player_move)
+    if grid_after_player_move.to_s.include?("HIT")
+      @output.puts "You sunk #{grid_after_player_move.count("HIT")} battleships."
+    else
+      @output.puts "You missed."
+      @output.puts "Guess again"
     end
   end
 
-  def coordinate_empty(cell)
-    if cell == MISS 
-      @coordinates_after_guess << "◦"
+  def start
+    while ships_left_on_grid != 0
+      ask_player_guess 
+    end
+    @output.puts "You sunk all the Battleships. You win"
+  end
+
+  def ships_left_on_grid
+    @grid.ships_left_on_grid
+  end
+
+  def display_table(cells)
+    display_columns
+    display_rows(cells)
+    @output.puts "\n"
+  end
+
+  def display_columns
+    @output.print "\t"
+    @column_label.each do |number|
+      @output.print number.center(7)
+    end
+    @output.puts "\n"
+  end
+
+  def display_rows(cells)
+    @output.print @row_label[0]
+    cells.each_with_index do |cell, index|
+      @output.print "\t"
+      @output.print cell.center(5)
+      new_row?(index)
     end
   end
 
-  def coordinate_ship_hit(cell)
-    if cell == HIT || cell == HIT_DESTROYER
-      @coordinates_after_guess << "HIT"
+  def new_row?(index)
+    if last_cell_in_row?(index)
+      @output.puts "\s"
+      @output.print row_label_for_cell(index)
     end
   end
 
-  def ships_left_in_grid
-    total_ships = []
-    @cells.each_with_index do |coordinate,index|
-      if coordinate == "S" || coordinate == "D"
-        total_ships << index
-      end
-    end
-    total_ships.size
+  def last_cell_in_row?(index)
+    (index + 1) % @column_label.size == 0
   end
+
+  def row_label_for_cell(index)
+    row_label_index = ((index + 1) / @column_label.size) 
+    @row_label[row_label_index]
+  end
+
 end
+
+

@@ -5,8 +5,10 @@ class Game
   MISS = "M"
   HIT = "H"
   HIT_DESTROYER = "HD"
+  HIT_SUBMARINE = "HS"
   SHIP = "S"
   DESTROYER = "D"
+  SUBMARINE = "SUB"
 
   attr_accessor :row_label, :column_label
   attr_reader :cells
@@ -41,7 +43,14 @@ class Game
 
   def place_destroyer(position)
     @cells[position] = DESTROYER
-    @cells[position+1] = DESTROYER
+    @cells[position + 1] = DESTROYER
+    @cells
+  end
+   
+  def place_submarine(position)
+    @cells[position] = SUBMARINE
+    @cells[position + 1] = SUBMARINE
+    @cells[position + 2] = SUBMARINE
     @cells
   end
 
@@ -51,10 +60,12 @@ class Game
 
   def hit_or_miss(column_number)
     if @cells[column_number] == SHIP
-       @cells[column_number] = HIT
-    elsif @cells[column_number] == DESTROYER
-       @cells[column_number] = HIT_DESTROYER
-    elsif @cells[column_number] != SHIP || @cells[column_number] != DESTROYER
+      @cells[column_number] = HIT
+    elsif  @cells[column_number] == DESTROYER
+      @cells[column_number] = HIT_DESTROYER
+    elsif  @cells[column_number] == SUBMARINE
+      @cells[column_number] = HIT_SUBMARINE
+    elsif @cells[column_number] != SHIP || @cells[column_number] != DESTROYER || @cells[column_number] != SUBMARINE
       @cells[column_number] = MISS
     end
     player_one_move(@cells)
@@ -63,18 +74,13 @@ class Game
   def player_one_move(guessed)
     @coordinates_after_guess = []
     guessed.each do |cell|
-      coordinate_unchanged(cell)
       coordinate_empty(cell)
       coordinate_ship_hit(cell)
       coordinate_destroyer_hit(cell)
+      coordinate_submarine_hit(cell)
+      coordinate_unchanged(cell)
     end
-     @coordinates_after_guess
-  end
-
-  def coordinate_unchanged(cell)
-    if cell == EMPTY || cell == SHIP || cell == DESTROYER
-      @coordinates_after_guess << "∙"
-    end
+    @coordinates_after_guess
   end
 
   def coordinate_empty(cell)
@@ -89,9 +95,21 @@ class Game
     end
   end
 
+  def coordinate_unchanged(cell)
+    if cell == EMPTY || cell == SHIP || cell == DESTROYER || cell == SUBMARINE
+      @coordinates_after_guess << "∙"
+    end
+  end
+
   def coordinate_destroyer_hit(cell)
     if cell == HIT_DESTROYER
-      @coordinates_after_guess << "HIT D"
+      @coordinates_after_guess << "HD"
+    end
+  end
+
+  def coordinate_submarine_hit(cell)
+    if cell == HIT_SUBMARINE
+      @coordinates_after_guess << "HS"
     end
   end
 
@@ -102,6 +120,6 @@ class Game
         total_ships << index
       end
     end
-     total_ships.size
+    total_ships.size
   end
 end

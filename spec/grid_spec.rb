@@ -74,8 +74,8 @@ describe Grid do
     let(:columns) {['1','2','3']}
     let(:grid) {Game.new(input,["E","E","E","E","E","E","E","E","E"],rows,columns)}
 
-    xit 'asks for another guess when miss' do 
-      input = StringIO.new("C1\nC2\n")
+    it 'asks for another guess when miss' do 
+      input = StringIO.new("C1\nA2\nA1")
       grid.place_ship(1)
       final_grid = grid.place_ship(0)
       Grid.new(input,output,rows,columns,final_grid).start

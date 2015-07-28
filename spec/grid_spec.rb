@@ -1,71 +1,123 @@
-require 'grid'
+require 'game'
 
-describe Grid do 
-  let(:input) {StringIO.new('A2')}
-  let(:output) {StringIO.new('')}
-  let(:coordinates) {['∙','◦','∙','∙']}
-  let(:grid) {Game.new(input,["E","E","E","E"],ROWS,COLUMNS).place_ship(1)}
-  let(:table) {output.string.split("\n")}
+describe Grid  do 
+  EMPTY = "E"
+  MISS = "M"
+  HIT = "H"
+  SHIP = "S"
+  DESTROYER = "D"
+  SUBMARINE = "Sub"
 
-  describe 'two by two grid' do
-    COLUMNS = ['1','2']
-    ROWS = ['A','B']
+  describe '#place_ship and place_destroyer' do 
+    initial_grid = [EMPTY,EMPTY,EMPTY,EMPTY]
+    grid_ship_placed = [EMPTY,EMPTY,SHIP,EMPTY]
 
-    it 'displays a grid at the beginning of the game' do 
-      Grid.new(input,output,ROWS,COLUMNS,grid).start
-      expect(table[1]).to include("1","2")
-      expect(table[2]).to include('A','∙')
+    let(:row_label) {['A','B']}
+    let(:column_label) {['1','2']}
+    let(:input) {StringIO.new('A1')}
+
+    it 'has 0 rows and 0 columns' do 
+      expect(Grid.new(input,initial_grid,row_label,column_label).cells).to eq(initial_grid)
     end
 
-    it 'asks the user to guess a coordinate' do 
-      Grid.new(input,output,ROWS,COLUMNS,grid).start
-      expect(table[0]).to include("Guess a coordinate")
-      expect(table[1]).to include("1","2")
+    it 'has empty 2 rows and 2 columns' do 
+      expect(Grid.new(input,initial_grid,row_label,column_label).cells).to eq(initial_grid)
     end
 
-    it 'displays an updated grid once a player has made a guess' do 
-      grid = Game.new(input,["E","E","E","E"],ROWS,COLUMNS).place_ship(1)
-      Grid.new(input,output,ROWS,COLUMNS,grid).start
-      expect(table[1]).to include("1","2")
-      expect(table[2]).to include("∙")
+    it 'has 1 ship as a coordinate' do 
+      expect(Grid.new(input,initial_grid,row_label,column_label).place_ship(2)).to eq(grid_ship_placed)
+    end
+
+    it 'has 1 destroyer as two horizontal coordinates' do
+      initial_grid = [EMPTY,EMPTY,EMPTY,EMPTY]
+      grid_ship_placed = [DESTROYER,DESTROYER,EMPTY,EMPTY]
+      expect(Grid.new(input,initial_grid,row_label,column_label).place_destroyer(0)).to eq(grid_ship_placed)
+    end
+
+    it 'has 1 submarine as three horizontal coordinates' do 
+      initial_grid = [EMPTY,EMPTY,EMPTY,EMPTY]
+      grid_ship_placed = [SUBMARINE,SUBMARINE,SUBMARINE,EMPTY]
+      expect(Grid.new(input,initial_grid,row_label,column_label).place_submarine(0)).to eq(grid_ship_placed)
+    end
+
+    describe '#target' do 
+      let(:row_label) {['A','B']}
+      let(:column_label) {['1','2']}
+      let(:input) {StringIO.new('A2')}
+
+      it 'changes an empty coordinate to a miss' do
+        initial_grid = ["E","E","E","E"]
+        input = StringIO.new('A1')
+        ship_placed = (Grid.new(input,initial_grid,row_label,column_label).place_ship(1))
+        expect(Grid.new(input,ship_placed,row_label,column_label).target(0)).to eq(["◦", "∙", "∙", "∙"])
+      end
+
+      it 'changes a coordinate in the first row with a ship to a hit' do 
+        input = StringIO.new('A2')
+        initial_grid = ["E","S","E","E"]
+        ship_placed = (Grid.new(input,initial_grid,row_label,column_label).place_ship(1))
+        expect(Grid.new(input,initial_grid,row_label,column_label).target(1)).to eq(["∙", "HIT", "∙", "∙"])
+      end
+
+      it 'changes a coordinate with a ship in second row hit' do 
+        input = StringIO.new('B1')
+        initial_grid = ["E","E","E","E"]
+        ship_placed = (Grid.new(input,initial_grid,row_label,column_label).place_ship(3))
+        expect(Grid.new(input,ship_placed,row_label,column_label).target(3)).to eq(["∙", "∙", "∙", "HIT"])
+      end
+
+      it 'changes a coordinate with a ship in the third row hit' do 
+        row_label = ['A','B','C']
+        column_label = ['1','2','3']
+        initial_grid = ["E","E","E","E","E","E","E","E","E"]
+        ship_placed = (Grid.new(input,initial_grid,row_label,column_label).place_ship(3))
+        expect(Grid.new(input,ship_placed,row_label,column_label).target(4)).to eq(["∙", "∙", "∙", "∙", "◦", "∙", "∙", "∙", "∙"])
+        expect(Grid.new(input,ship_placed,row_label,column_label).target(7)).to eq(["∙", "∙", "∙", "∙", "◦", "∙", "∙", "◦", "∙"])
+
+      end
+
+      it 'changes a coordinate when a destroyer is hit' do 
+        initial_grid = ["E","E","E","E"]
+        ship_placed = (Grid.new(input,initial_grid,row_label,column_label).place_destroyer(1))
+        expect(Grid.new(input,ship_placed,row_label,column_label).target(1)).to eq(["∙", "HD", "∙", "∙"])
+        expect(Grid.new(input,ship_placed,row_label,column_label).target(0)).to eq(["◦", "HD", "∙", "∙"])
+      end
+
+      it 'changes a coordinate when a submarine is hit' do 
+        initial_grid = ["E","E","E","E"]
+        ship_placed = (Grid.new(input,initial_grid,row_label,column_label).place_submarine(0))
+        expect(Grid.new(input,ship_placed,row_label,column_label).target(0)).to eq(["HS", "∙", "∙", "∙"])
+        expect(Grid.new(input,ship_placed,row_label,column_label).target(1)).to eq(["HS", "HS", "∙", "∙"])
+        expect(Grid.new(input,ship_placed,row_label,column_label).target(2)).to eq(["HS", "HS", "HS", "∙"])
+      end
+
+      it 'changes icon to hit once a player makes a guess' do 
+        initial_grid = ["E","E","E","E","E","E","E","E","E"]
+        input = StringIO.new('A2')
+        new_game =  Grid.new(input,initial_grid,row_label,column_label)
+        new_game.place_ship(1)
+        result = new_game.target(1)
+        expect(result).to eq(["∙","HIT","∙","∙","∙","∙","∙","∙","∙"])
+      end
+    end
+
+    describe '#generate_grid and #generate empty grid' do
+      it 'generates 4 random cells' do 
+        grid = Grid.generate_grid(4) 
+        expect(grid.size).to eq(4)
+      end
+
+      it 'generates 10 random cells' do 
+        grid = Grid.generate_grid(10) 
+        expect(grid.size).to eq(10)
+      end
+
+      it "auto genetares an empty grid if one isn't supplied" do
+        ROWS= ['A','B','C']
+        COLUMNS = ['1','2','3']
+        input = StringIO.new('A1')
+        expect(Grid.generate_empty_cells(ROWS,COLUMNS)).to eq(["E","E","E","E","E","E","E","E","E"])
+      end
     end
   end
-
-    describe "a 3 by 3 game which doesn't exit till all hits made" do
-      let(:rows) {['A','B','C']}
-      let(:columns) {['1','2','3']}
-      let(:grid) {Game.new(input,["E","E","E","E","E","E","E","E","E"],rows,columns)}
-
-      it 'asks for another guess when miss' do 
-        input = StringIO.new("C1\nA2\nA1")
-        grid.place_ship(1)
-        final_grid = grid.place_ship(0)
-        Grid.new(input,output,rows,columns,final_grid).start
-        expect(output.string).to include("You missed.")
-      end
-
-      it 'tells the user they sunk a battleship' do 
-        input = StringIO.new("B2\n")
-        grid_with_ship = Game.new(input,["E","E","E","E","E","E","E","E","E"],rows,columns).place_ship(4)
-        Grid.new(input,output,rows,columns,grid_with_ship).start
-        expect(output.string).to include("You sunk all the Battleships.")
-      end
-
-      it 'tells the user when they have sunk a destroyer' do 
-        input = StringIO.new("A2\nA3\n")
-        grid_with_ship = Game.new(input,["E","E","E","E","E","E","E","E","E"],rows,columns)
-        grid_with_destroyer = grid_with_ship.place_destroyer(1)
-        Grid.new(input,output,rows,columns,grid_with_destroyer).start
-        expect(output.string).to include("You sunk all the Battleships. You win")
-        expect(output.string).to include("You sunk a destroyer.")
-      end
-
-      it 'exits the game when all hits have been made' do 
-        input = StringIO.new("B2\n")
-        final_grid = grid.place_ship(4)
-        Grid.new(input,output,rows,columns,final_grid).start
-        expect(output.string).to include("You win")
-        expect(output.string).to include("You sunk all the Battleships.")
-      end
-    end
-  end
+end

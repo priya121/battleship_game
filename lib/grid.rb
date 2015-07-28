@@ -1,67 +1,90 @@
-require 'game'
+require 'player'
 require 'display'
 
 class Grid
-  def initialize(input,output,rows,columns,cells)
+  SHIPS = {:battleship => 4,
+           :destroyer => 2,
+           :submarine => 3,
+           :aircraft_carrier => 5,
+           :cruiser => 3}
+
+  BATTLESHIP = "S"
+  DESTROYER = "D"
+  SUBMARINE = "Sub"
+  EMPTY = "E"
+  MISS = "M"
+  HIT_BATTLESHIP = "H"
+  HIT_DESTROYER = "HD"
+  HIT_SUBMARINE = "HS"
+
+  attr_accessor :row_label, :column_label
+  attr_reader :cells
+
+  def initialize(input,cells,row_label,column_label)
     @input = input
-    @output = output
-    @row_label = rows
-    @column_label = columns
     @cells = cells
-    @player = Player.new(@input,@row_label,@column_label)
-    @grid = Game.new(@input,@cells,@row_label,@column_label) 
-    @display = Display.new(@cells,@row_label,@column_label,@output)
+    @row_label = row_label
+    @column_label = column_label
   end
 
-  def ask_player_guess
-    @output.puts "Guess a coordinate:\n"
-    @index_after_player_move = @player.give_coordinate
-    grid_after_player_move = @grid.target(@index_after_player_move)
-    @display.display_table(grid_after_player_move)
-    display_hit_or_miss(grid_after_player_move)
+  def self.generate_empty_cells(rows,columns)
+   @empty_grid = ''
+   empty_cells =  ("E" * (rows.size * columns.size))
+   @empty_grid << empty_cells
+   @empty_grid.split(//)
   end
 
-  def display_hit_or_miss(grid_after_player_move)
-    missed_shot(grid_after_player_move)
-    hit_a_ship(grid_after_player_move)
-    hit_a_destroyer(grid_after_player_move)
-    destroyer_sunk(grid_after_player_move)
-  end
-
-  def missed_shot(grid_after_player_move)
-    unless grid_after_player_move[@index_after_player_move] == "HIT" || grid_after_player_move[@index_after_player_move] == "HD"
-      @output.puts "You missed."
-      @output.puts "Guess again"
+  def self.generate_grid(size)
+    grid = []
+    (0..size - 1). each do |cell|
+      rand = [EMPTY,SHIP].sample
+      grid << rand
     end
+    grid
   end
 
-  def hit_a_ship(grid_after_player_move)
-    if grid_after_player_move.to_s.include?("HIT") 
-      @output.puts "You sunk #{grid_after_player_move.count("HIT")} battleships."
-    else
-    end
+  def place_ship(position)
+    @cells[position] = BATTLESHIP
+    @cells
   end
 
-  def hit_a_destroyer(grid_after_player_move)
-    if grid_after_player_move.to_s.include?("HD")
-      @output.puts "You hit #{grid_after_player_move.count("HD")} part of a destroyer."
-    end
+  def place_destroyer(position)
+    @cells[position] = DESTROYER
+    @cells[position + 1] = DESTROYER
+    @cells
   end
 
-  def destroyer_sunk(grid_after_player_move)
-    if grid_after_player_move.count("HD") == 2
-      @output.puts "You sunk a destroyer."
-    end
+  def place_submarine(position)
+    @cells[position] = SUBMARINE
+    @cells[position + 1] = SUBMARINE
+    @cells[position + 2] = SUBMARINE
+    @cells
   end
 
-  def start
-    while ships_left_on_grid != 0
-      ask_player_guess 
+  def target(index_from_coordinate)
+    hit_or_miss(index_from_coordinate)
+  end
+
+  def hit_or_miss(column_number)
+    if @cells[column_number] == BATTLESHIP
+      @cells[column_number] = HIT_BATTLESHIP
+    elsif  @cells[column_number] == DESTROYER
+      @cells[column_number] = HIT_DESTROYER
+    elsif  @cells[column_number] == SUBMARINE
+      @cells[column_number] = HIT_SUBMARINE
+    elsif @cells[column_number] != BATTLESHIP || @cells[column_number] != DESTROYER || @cells[column_number] != SUBMARINE
+      @cells[column_number] = MISS
     end
-    @output.puts "You sunk all the Battleships. You win"
+    Display.new(@cells,@row_label,@column_label,@output).player_one_move
   end
 
   def ships_left_on_grid
-    @grid.ships_left_on_grid
+    total_ships = []
+    @cells.each_with_index do |coordinate,index|
+      if coordinate == "S" || coordinate == "D"
+        total_ships << index
+      end
+    end
+    total_ships.size
   end
 end

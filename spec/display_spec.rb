@@ -1,7 +1,6 @@
 require 'display'
 
 describe Display do 
-  
 EMPTY = "E"
 ROWS = ['A','B','C','D']
 COLUMNS = ['1','2','3','4']

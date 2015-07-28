@@ -2,12 +2,14 @@ require 'player'
 require 'display'
 
 class Game
-  SHIPS = {:battleship => ['S','S','S','S'],
-           :destroyer => ['D','D'],
-           :submarine => ['SUB','SUB','SUB'],
-           :aircraft_carrier => ['A','A','A','A','A'],
-           :cruiser => ['C','C','C']}
-
+  SHIPS = {:battleship => 4,
+           :destroyer => 2,
+           :submarine => 3,
+           :aircraft_carrier => 5,
+           :cruiser => 3}
+  BATTLESHIP = "S"
+  DESTROYER = "D"
+  SUBMARINE = "Sub"
   EMPTY = "E"
   MISS = "M"
   HIT_BATTLESHIP = "H"
@@ -40,21 +42,34 @@ class Game
     grid
   end
 
+  def draw_ship(ship,position)
+    SHIPS.each do |draw_ship,number_of_cells|
+      if ship == draw_ship
+        i = 0
+        number_of_cells.times do |new_ship|
+          @cells[position + (i)] = "S"
+          i += 1
+        end
+      end
+    end
+    @cells
+  end
+
   def place_ship(position)
-    @cells[position] = SHIPS[:battleship][0]
+    @cells[position] = BATTLESHIP
     @cells
   end
 
   def place_destroyer(position)
-    @cells[position] = SHIPS[:destroyer][0]
-    @cells[position + 1] = SHIPS[:destroyer][1]
+    @cells[position] = DESTROYER
+    @cells[position + 1] = DESTROYER
     @cells
   end
-   
+
   def place_submarine(position)
-    @cells[position] = SHIPS[:submarine][0]
-    @cells[position + 1] = SHIPS[:submarine][1]
-    @cells[position + 2] = SHIPS[:submarine][2]
+    @cells[position] = SUBMARINE
+    @cells[position + 1] = SUBMARINE
+    @cells[position + 2] = SUBMARINE
     @cells
   end
 
@@ -63,13 +78,13 @@ class Game
   end
 
   def hit_or_miss(column_number)
-    if @cells[column_number] == SHIPS[:battleship][0]
+    if @cells[column_number] == BATTLESHIP
       @cells[column_number] = HIT_BATTLESHIP
-    elsif  @cells[column_number] == SHIPS[:destroyer][0]
+    elsif  @cells[column_number] == DESTROYER
       @cells[column_number] = HIT_DESTROYER
-    elsif  @cells[column_number] == SHIPS[:submarine][0]
+    elsif  @cells[column_number] == SUBMARINE
       @cells[column_number] = HIT_SUBMARINE
-    elsif @cells[column_number] != SHIPS[:battleship][0] || @cells[column_number] != SHIPS[:destroyer][0] || @cells[column_number] != SHIPS[:submarine][0]
+    elsif @cells[column_number] != BATTLESHIP || @cells[column_number] != DESTROYER || @cells[column_number] != SUBMARINE
       @cells[column_number] = MISS
     end
     Display.new(@cells,@row_label,@column_label,@output).player_one_move

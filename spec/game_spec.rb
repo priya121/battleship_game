@@ -6,7 +6,7 @@ describe Game  do
   HIT = "H"
   SHIP = "S"
   DESTROYER = "D"
-  SUBMARINE = "SUB"
+  SUBMARINE = "Sub"
 
   describe '#place_ship and place_destroyer' do 
     initial_grid = [EMPTY,EMPTY,EMPTY,EMPTY]
@@ -38,6 +38,16 @@ describe Game  do
       initial_grid = [EMPTY,EMPTY,EMPTY,EMPTY]
       grid_ship_placed = [SUBMARINE,SUBMARINE,SUBMARINE,EMPTY]
       expect(Game.new(input,initial_grid,row_label,column_label).place_submarine(0)).to eq(grid_ship_placed)
+    end
+
+    it 'draws a ship depending on which ship is passed to it' do
+      initial_grid = [EMPTY,EMPTY,EMPTY,EMPTY]
+      expect(Game.new(input,initial_grid,row_label,column_label).draw_ship(:destroyer,0)).to eq(["S","S","E","E"])
+    end
+
+    it 'draws a ship depending on which ship is passed to it' do
+      initial_grid = [EMPTY,EMPTY,EMPTY,EMPTY]
+      expect(Game.new(input,initial_grid,row_label,column_label).draw_ship(:submarine,1)).to eq(["E","S","S","S"])
     end
 
     describe '#target' do 

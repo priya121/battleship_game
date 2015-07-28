@@ -3,7 +3,7 @@ require 'grid'
 class Display
   SHIPS = {:battleship => ['S','S','S','S'],
            :destroyer => ['D','D'],
-           :submarine => ['SUB','SUB','SUB'],
+           :submarine => ['Sub','Sub','Sub'],
            :aircraft_carrier => ['A','A','A','A'],
            :cruiser => ['C','C','C']}
 

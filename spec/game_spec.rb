@@ -91,14 +91,6 @@ describe Game  do
         expect(Game.new(input,ship_placed,row_label,column_label).target(2)).to eq(["HS", "HS", "HS", "∙"])
       end
 
-      it 'changes ship and empty letters to empty icons that can be shown in the display before a guess is made' do 
-        initial_grid = ["E","E","E","E","E","E","E","E","E"]
-        input = StringIO.new('A1')
-        initial = Game.new(input,initial_grid,row_label,column_label)
-        result = initial.place_ship(1)
-        expect(initial.player_one_move(result)).to eq(["∙","∙","∙","∙","∙","∙","∙","∙","∙"])
-      end
-
       it 'changes icon to hit once a player makes a guess' do 
         initial_grid = ["E","E","E","E","E","E","E","E","E"]
         input = StringIO.new('A2')

@@ -1,14 +1,18 @@
 require 'player'
+require 'display'
 
 class Game
+  SHIPS = {:battleship => ['S','S','S','S'],
+           :destroyer => ['D','D'],
+           :submarine => ['SUB','SUB','SUB'],
+           :aircraft_carrier => ['A','A','A','A','A'],
+           :cruiser => ['C','C','C']}
+
   EMPTY = "E"
   MISS = "M"
-  HIT = "H"
+  HIT_BATTLESHIP = "H"
   HIT_DESTROYER = "HD"
   HIT_SUBMARINE = "HS"
-  SHIP = "S"
-  DESTROYER = "D"
-  SUBMARINE = "SUB"
 
   attr_accessor :row_label, :column_label
   attr_reader :cells
@@ -37,20 +41,20 @@ class Game
   end
 
   def place_ship(position)
-    @cells[position] = SHIP
+    @cells[position] = SHIPS[:battleship][0]
     @cells
   end
 
   def place_destroyer(position)
-    @cells[position] = DESTROYER
-    @cells[position + 1] = DESTROYER
+    @cells[position] = SHIPS[:destroyer][0]
+    @cells[position + 1] = SHIPS[:destroyer][1]
     @cells
   end
    
   def place_submarine(position)
-    @cells[position] = SUBMARINE
-    @cells[position + 1] = SUBMARINE
-    @cells[position + 2] = SUBMARINE
+    @cells[position] = SHIPS[:submarine][0]
+    @cells[position + 1] = SHIPS[:submarine][1]
+    @cells[position + 2] = SHIPS[:submarine][2]
     @cells
   end
 
@@ -59,58 +63,16 @@ class Game
   end
 
   def hit_or_miss(column_number)
-    if @cells[column_number] == SHIP
-      @cells[column_number] = HIT
-    elsif  @cells[column_number] == DESTROYER
+    if @cells[column_number] == SHIPS[:battleship][0]
+      @cells[column_number] = HIT_BATTLESHIP
+    elsif  @cells[column_number] == SHIPS[:destroyer][0]
       @cells[column_number] = HIT_DESTROYER
-    elsif  @cells[column_number] == SUBMARINE
+    elsif  @cells[column_number] == SHIPS[:submarine][0]
       @cells[column_number] = HIT_SUBMARINE
-    elsif @cells[column_number] != SHIP || @cells[column_number] != DESTROYER || @cells[column_number] != SUBMARINE
+    elsif @cells[column_number] != SHIPS[:battleship][0] || @cells[column_number] != SHIPS[:destroyer][0] || @cells[column_number] != SHIPS[:submarine][0]
       @cells[column_number] = MISS
     end
-    player_one_move(@cells)
-  end
-
-  def player_one_move(guessed)
-    @coordinates_after_guess = []
-    guessed.each do |cell|
-      coordinate_empty(cell)
-      coordinate_ship_hit(cell)
-      coordinate_destroyer_hit(cell)
-      coordinate_submarine_hit(cell)
-      coordinate_unchanged(cell)
-    end
-    @coordinates_after_guess
-  end
-
-  def coordinate_empty(cell)
-    if cell == MISS 
-      @coordinates_after_guess << "◦"
-    end
-  end
-
-  def coordinate_ship_hit(cell)
-    if cell == HIT 
-      @coordinates_after_guess << "HIT"
-    end
-  end
-
-  def coordinate_unchanged(cell)
-    if cell == EMPTY || cell == SHIP || cell == DESTROYER || cell == SUBMARINE
-      @coordinates_after_guess << "∙"
-    end
-  end
-
-  def coordinate_destroyer_hit(cell)
-    if cell == HIT_DESTROYER
-      @coordinates_after_guess << "HD"
-    end
-  end
-
-  def coordinate_submarine_hit(cell)
-    if cell == HIT_SUBMARINE
-      @coordinates_after_guess << "HS"
-    end
+    Display.new(@cells,@row_label,@column_label,@output).player_one_move
   end
 
   def ships_left_on_grid

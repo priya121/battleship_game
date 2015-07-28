@@ -1,4 +1,5 @@
 class Player
+
   def initialize(input,rows,columns)
     @row_label = rows
     @column_label = columns
@@ -20,4 +21,5 @@ class Player
     end
     column_number
   end
+
 end

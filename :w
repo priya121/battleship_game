@@ -1,0 +1,19 @@
+require 'display'
+
+describe Display do 
+ROWS = ['A','B','C','D']
+COLUMNS = ['1','2','3','4']
+
+  let (:output) {StringIO.new('')}
+  let (:table) {output.string.split("\n")}
+  let (:cells) {['∙','∙','∙','∙','∙','∙','∙','∙']}
+
+  it 'displays a new table' do 
+    Display.new(cells,ROWS,COLUMNS,output).display_table
+    expect(table[0]).to include('1','2','3','4')
+  end
+
+  it 'changes the display of cells from letter to icons' do 
+    Display.new(cells,ROWS,COLUMNS,output).display_table
+  end
+end

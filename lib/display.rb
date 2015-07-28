@@ -1,12 +1,6 @@
 require 'grid'
 
 class Display
-  SHIPS = {:battleship => 4,
-           :destroyer => 2,
-           :submarine => 3, 
-           :aircraft_carrier => 5,
-           :cruiser => 3} 
-
   BATTLESHIP = "S"
   DESTROYER = "D"
   SUBMARINE = "Sub"
@@ -21,19 +15,6 @@ class Display
     @row_label = row_label
     @column_label = column_label
     @output = output
-  end
-
-  def draw_ship(ship,position)
-    SHIPS.each do |draw_ship,number_of_cells|
-      if ship == draw_ship
-        i = 0
-        number_of_cells.times do |new_ship|
-          @cells[position + (i)] = "S"
-          i += 1
-        end
-      end
-    end
-    @cells
   end
 
   def display_table(cells)

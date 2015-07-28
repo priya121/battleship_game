@@ -40,6 +40,16 @@ describe Grid  do
       expect(Grid.new(input,initial_grid,row_label,column_label).place_submarine(0)).to eq(grid_ship_placed)
     end
 
+    it 'draws a ship depending on which ship is passed to it' do
+      initial_grid = [EMPTY,EMPTY,EMPTY,EMPTY]
+      expect(Grid.new(input,initial_grid,row_label,column_label).draw_ship(:destroyer,0)).to eq(["S","S","E","E"])
+    end
+
+    it 'draws a ship depending on which ship is passed to it' do
+      initial_grid = [EMPTY,EMPTY,EMPTY,EMPTY]
+      expect(Grid.new(input,initial_grid,row_label,column_label).draw_ship(:submarine,1)).to eq(["E","S","S","S"])
+    end
+
     describe '#target' do 
       let(:row_label) {['A','B']}
       let(:column_label) {['1','2']}

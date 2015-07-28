@@ -42,19 +42,6 @@ class Game
     grid
   end
 
-  def draw_ship(ship,position)
-    SHIPS.each do |draw_ship,number_of_cells|
-      if ship == draw_ship
-        i = 0
-        number_of_cells.times do |new_ship|
-          @cells[position + (i)] = "S"
-          i += 1
-        end
-      end
-    end
-    @cells
-  end
-
   def place_ship(position)
     @cells[position] = BATTLESHIP
     @cells

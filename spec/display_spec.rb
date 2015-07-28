@@ -1,6 +1,8 @@
 require 'display'
 
 describe Display do 
+  
+EMPTY = "E"
 ROWS = ['A','B','C','D']
 COLUMNS = ['1','2','3','4']
 
@@ -24,4 +26,14 @@ COLUMNS = ['1','2','3','4']
     expect(table[1]).to include("A")
     expect(table[1]).to include("∙")
   end
+
+    it 'draws a ship depending on which ship is passed to it' do
+      initial_grid = [EMPTY,EMPTY,EMPTY,EMPTY]
+      expect(Display.new(initial_grid,ROWS,COLUMNS,output).draw_ship(:destroyer,0)).to eq(["S","S","E","E"])
+    end
+
+    it 'draws a ship depending on which ship is passed to it' do
+      initial_grid = [EMPTY,EMPTY,EMPTY,EMPTY]
+      expect(Display.new(initial_grid,ROWS,COLUMNS,output).draw_ship(:submarine,1)).to eq(["E","S","S","S"])
+    end
 end

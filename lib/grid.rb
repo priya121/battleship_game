@@ -2,12 +2,6 @@ require 'game'
 require 'display'
 
 class Grid
-  EMPTY = "E"
-  MISS = "M"
-  HIT = "H"
-  SHIP = "S"
-  DESTROYER = "D"
-
   def initialize(input,output,rows,columns,cells)
     @input = input
     @output = output

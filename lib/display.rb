@@ -1,12 +1,15 @@
 require 'grid'
 
 class Display
-  SHIPS = {:battleship => ['S','S','S','S'],
-           :destroyer => ['D','D'],
-           :submarine => ['Sub','Sub','Sub'],
-           :aircraft_carrier => ['A','A','A','A'],
-           :cruiser => ['C','C','C']}
+  SHIPS = {:battleship => 4,
+           :destroyer => 2,
+           :submarine => 3, 
+           :aircraft_carrier => 5,
+           :cruiser => 3} 
 
+  BATTLESHIP = "S"
+  DESTROYER = "D"
+  SUBMARINE = "Sub"
   EMPTY = "E"
   MISS = "M"
   HIT_BATTLESHIP = "H"
@@ -18,6 +21,19 @@ class Display
     @row_label = row_label
     @column_label = column_label
     @output = output
+  end
+
+  def draw_ship(ship,position)
+    SHIPS.each do |draw_ship,number_of_cells|
+      if ship == draw_ship
+        i = 0
+        number_of_cells.times do |new_ship|
+          @cells[position + (i)] = "S"
+          i += 1
+        end
+      end
+    end
+    @cells
   end
 
   def display_table(cells)
@@ -84,7 +100,7 @@ class Display
   end
 
   def coordinate_unchanged(cell)
-    if cell == EMPTY || cell == SHIPS[:battleship][0]|| cell == SHIPS[:destroyer][0]|| cell == SHIPS[:submarine][0]
+    if cell == EMPTY || cell == BATTLESHIP|| cell == DESTROYER|| cell == SUBMARINE
       @coordinates_after_guess << "∙"
     end
   end

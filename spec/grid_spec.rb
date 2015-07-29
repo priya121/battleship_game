@@ -2,7 +2,6 @@ require 'game'
 
 describe Grid  do 
   EMPTY = "E"
-  SHIP = "S"
 
   describe '#place_ship and place_destroyer' do 
     initial_grid = [EMPTY,EMPTY,EMPTY,EMPTY]
@@ -92,6 +91,30 @@ describe Grid  do
         new_game.draw_ship(:battleship,1)
         result = new_game.target(1)
         expect(result).to eq(["∙","HIT","∙","∙","∙","∙","∙","∙","∙"])
+      end
+    end
+
+    describe '#ships_left_on_grid' do 
+      let(:row_label) {['A','B']}
+      let(:column_label) {['1','2']}
+      let(:input) {StringIO.new('A2')}
+
+      it 'counts all the ships left on the grid' do 
+        grid_with_battleship = Grid.new(input,initial_grid,row_label,column_label).draw_ship(:battleship,1)
+        grid = Grid.new(input,grid_with_battleship,row_label,column_label)
+        expect(grid.ships_left_on_grid).to eq(1)
+      end
+      
+      it 'counts all the destroyers left on the grid' do 
+        grid_with_destroyer = Grid.new(input,initial_grid,row_label,column_label).draw_ship(:destroyer,0)
+        result = Grid.new(input,grid_with_destroyer,row_label,column_label).ships_left_on_grid
+        expect(result).to eq(2)
+      end
+  
+      it 'counts all the battleships left on the grid' do  
+        grid_with_destroyer = Grid.new(input,initial_grid,row_label,column_label).draw_ship(:battleship,0)
+        result = Grid.new(input,grid_with_destroyer,row_label,column_label).ships_left_on_grid
+        expect(result).to eq(2)
       end
     end
 

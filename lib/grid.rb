@@ -19,16 +19,16 @@ class Grid
   end
 
   def self.generate_empty_cells(rows,columns)
-   @empty_grid = ''
-   empty_cells =  ("E" * (rows.size * columns.size))
-   @empty_grid << empty_cells
-   @empty_grid.split(//)
+    @empty_grid = ''
+    empty_cells =  ("E" * (rows.size * columns.size))
+    @empty_grid << empty_cells
+    @empty_grid.split(//)
   end
 
   def self.generate_grid(size)
     grid = []
     (0..size - 1). each do |cell|
-      rand = [EMPTY,SHIP].sample
+      rand = [EMPTY,SHIPS.keys].sample
       grid << rand
     end
     grid
@@ -44,13 +44,13 @@ class Grid
       end
     end
     end
-  @cells
+    @cells
   end
 
   def target(index_from_coordinate)
     hit_or_miss(index_from_coordinate)
   end
-def hit_or_miss(column_number)
+  def hit_or_miss(column_number)
     if @cells[column_number] == SHIPS.keys[0]
       @cells[column_number] = :hit_battleship
     elsif  @cells[column_number] == SHIPS.keys[1] 
@@ -63,13 +63,35 @@ def hit_or_miss(column_number)
     Display.new(@cells,@row_label,@column_label,@output).player_one_move
   end
 
-  def ships_left_on_grid
-    total_ships = []
+def ships_left_on_grid
+  
+    @battleships = []
+    @destroyers = []
+    @submarines = []
     @cells.each_with_index do |coordinate,index|
-      if coordinate == :battleship || coordinate == :destroyer || coordinate == :submarine
-        total_ships << index
-      end
+    if coordinate == :battleship
+      @battleships << coordinate
     end
-    total_ships.size
+    if coordinate == :destroyer
+      @destroyers << coordinate
+    end
+    if coordinate == :submarine 
+      @submarines << coordinate
+    end
+    end
+    @total_ships = (@destroyers.size + @submarines.size + @battleships.size)
   end
+
+  def destroyer_left_on_grid
+    @destroyers.size
+  end
+
+  def submarine_left_on_grid
+    @submarines.size
+  end
+
+  def battleships_left_on_grid
+    @battleships.size
+  end
+
 end

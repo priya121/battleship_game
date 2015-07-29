@@ -108,7 +108,9 @@ describe Grid  do
       it 'counts all the destroyers left on the grid' do 
         grid_with_destroyer = Grid.new(input,initial_grid,row_label,column_label).draw_ship(:destroyer,0)
         result = Grid.new(input,grid_with_destroyer,row_label,column_label).ships_left_on_grid
+        destroyers = Grid.new(input,grid_with_destroyer,row_label,column_label).destroyer_coordinates_left_on_grid
         expect(result).to eq(2)
+        expect(destroyers).to eq(2)
       end
   
       it 'counts all the battleships left on the grid' do  

@@ -29,7 +29,7 @@ class Game
   end
 
   def missed_shot(grid_after_player_move)
-    unless grid_after_player_move[@index_after_player_move] == "HIT" || grid_after_player_move[@index_after_player_move] == "HD"
+    unless grid_after_player_move[@index_after_player_move] == "HIT" || grid_after_player_move[@index_after_player_move] == "HD" || grid_after_player_move[@index_after_player_move] =="HS"
       @output.puts "You missed."
       @output.puts "Guess again"
     end

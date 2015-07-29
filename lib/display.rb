@@ -1,14 +1,13 @@
 require 'grid'
 
 class Display
-  BATTLESHIP = "S"
-  DESTROYER = "D"
-  SUBMARINE = "Sub"
+  SHIPS = {:battleship => 4,
+           :destroyer => 2,
+           :submarine => 3,
+           :aircraft_carrier => 5,
+           :cruiser => 3}
+
   EMPTY = "E"
-  MISS = "M"
-  HIT_BATTLESHIP = "H"
-  HIT_DESTROYER = "HD"
-  HIT_SUBMARINE = "HS"
 
   def initialize(cells,row_label,column_label,output)
     @cells = cells
@@ -69,33 +68,32 @@ class Display
   end
 
   def coordinate_empty(cell)
-    if cell == MISS 
+    if cell == :miss 
       @coordinates_after_guess << "◦"
     end
   end
 
   def coordinate_ship_hit(cell)
-    if cell == HIT_BATTLESHIP
+    if cell == :hit_battleship
       @coordinates_after_guess << "HIT"
     end
   end
 
   def coordinate_unchanged(cell)
-    if cell == EMPTY || cell == BATTLESHIP|| cell == DESTROYER|| cell == SUBMARINE
+    if cell == EMPTY || cell == SHIPS.keys[0] || cell == SHIPS.keys[1] || cell == SHIPS.keys[2]
       @coordinates_after_guess << "∙"
     end
   end
 
   def coordinate_destroyer_hit(cell)
-    if cell == HIT_DESTROYER
+    if cell == :hit_destroyer
       @coordinates_after_guess << "HD"
     end
   end
 
   def coordinate_submarine_hit(cell)
-    if cell == HIT_SUBMARINE
+    if cell == :hit_submarine 
       @coordinates_after_guess << "HS"
     end
   end
-
 end

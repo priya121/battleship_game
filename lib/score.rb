@@ -37,3 +37,4 @@ class Score
   end
 
 end
+

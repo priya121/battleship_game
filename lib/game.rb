@@ -1,5 +1,6 @@
 require 'game'
 require 'display'
+require 'score'
 
 class Game
   def initialize(input,output,rows,columns,cells)
@@ -11,6 +12,7 @@ class Game
     @player = Player.new(@input,@row_label,@column_label)
     @grid = Grid.new(@input,@cells,@row_label,@column_label) 
     @display = Display.new(@cells,@row_label,@column_label,@output)
+    @score = Score.new(@cells)
   end
 
   def ask_player_guess
@@ -55,13 +57,14 @@ class Game
   end
 
   def start
-    while ships_left_on_grid != 0
+    while ships_left_on_grid == true
       ask_player_guess 
     end
-    @output.puts "You sunk all the Battleships. You win"
-  end
+      @output.puts "You sunk all the ships. You win"
+    end
 
   def ships_left_on_grid
-    @grid.ships_left_on_grid
+    @score.ships_left_on_grid
   end
+
 end

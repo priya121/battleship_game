@@ -1,6 +1,9 @@
 require 'game'
 
 describe Game do 
+  ROWS = ['A','B','C']
+  COLUMNS = ['1','2','3']
+
   let(:input) {StringIO.new('A2')}
   let(:output) {StringIO.new('')}
   let(:coordinates) {['∙','◦','∙','∙']}
@@ -45,7 +48,7 @@ describe Game do
         input = StringIO.new("B2\n")
         grid_with_ship = Grid.new(input,["E","E","E","E","E","E","E","E","E"],rows,columns).draw_ship(:battleship,4)
         Game.new(input,output,rows,columns,grid_with_ship).start
-        expect(output.string).to include("You sunk all the Battleships.")
+        expect(output.string).to include("You sunk all the ships.")
       end
 
       it 'tells the user when they have sunk a destroyer' do 
@@ -53,7 +56,7 @@ describe Game do
         grid_with_ship = Grid.new(input,["E","E","E","E","E","E","E","E","E"],rows,columns)
         grid_with_destroyer = grid_with_ship.draw_ship(:destroyer,1)
         Game.new(input,output,rows,columns,grid_with_destroyer).start
-        expect(output.string).to include("You sunk all the Battleships. You win")
+        expect(output.string).to include("You sunk all the ships. You win")
         expect(output.string).to include("You sunk a destroyer.")
       end
 
@@ -62,7 +65,7 @@ describe Game do
         final_grid = grid.draw_ship(:battleship,4)
         Game.new(input,output,rows,columns,final_grid).start
         expect(output.string).to include("You win")
-        expect(output.string).to include("You sunk all the Battleships.")
+        expect(output.string).to include("You sunk all the ships.")
       end
     end
   end

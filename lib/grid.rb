@@ -64,35 +64,4 @@ class Grid
     Display.new(@cells,@row_label,@column_label,@output).player_one_move
   end
 
-  def ships_left_on_grid
-    @battleships = []
-    @destroyers = []
-    @submarines = []
-    @cells.each_with_index do |coordinate,index|
-      if coordinate == :battleship
-        @battleships << coordinate
-      elsif coordinate == :destroyer
-        @destroyers << coordinate
-      elsif coordinate == :submarine 
-        @submarines << coordinate
-      end
-    end
-    @total_ships = (@destroyers.size + @submarines.size + @battleships.size)
-  end
-
-  def destroyer_coordinates_left_on_grid
-    ships_left_on_grid
-    @destroyers.size
-  end
-
-  def submarine_coordinates_left_on_grid
-    ships_left_on_grid
-    @submarines.size
-  end
-
-  def battleships_coordinates_left_on_grid
-    ships_left_on_grid
-    @battleships.size
-  end
-
 end

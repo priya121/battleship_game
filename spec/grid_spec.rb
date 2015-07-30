@@ -32,7 +32,7 @@ describe Grid  do
       initial_grid = [EMPTY,EMPTY,EMPTY,EMPTY]
       expect(Grid.new(input,initial_grid,row_label,column_label).draw_ship(:submarine,1)).to eq(["E",:submarine,:submarine,:submarine])
     end
-
+  end
     describe '#target' do 
       let(:row_label) {['A','B']}
       let(:column_label) {['1','2']}
@@ -94,32 +94,6 @@ describe Grid  do
       end
     end
 
-    describe '#ships_left_on_grid' do 
-      let(:row_label) {['A','B']}
-      let(:column_label) {['1','2']}
-      let(:input) {StringIO.new('A2')}
-
-      it 'counts all the ships left on the grid' do 
-        grid_with_battleship = Grid.new(input,initial_grid,row_label,column_label).draw_ship(:battleship,1)
-        grid = Grid.new(input,grid_with_battleship,row_label,column_label)
-        expect(grid.ships_left_on_grid).to eq(1)
-      end
-      
-      it 'counts all the destroyers left on the grid' do 
-        grid_with_destroyer = Grid.new(input,initial_grid,row_label,column_label).draw_ship(:destroyer,0)
-        result = Grid.new(input,grid_with_destroyer,row_label,column_label).ships_left_on_grid
-        destroyers = Grid.new(input,grid_with_destroyer,row_label,column_label).destroyer_coordinates_left_on_grid
-        expect(result).to eq(2)
-        expect(destroyers).to eq(2)
-      end
-  
-      it 'counts all the battleships left on the grid' do  
-        grid_with_destroyer = Grid.new(input,initial_grid,row_label,column_label).draw_ship(:battleship,0)
-        result = Grid.new(input,grid_with_destroyer,row_label,column_label).ships_left_on_grid
-        expect(result).to eq(2)
-      end
-    end
-
     describe '#generate_grid and #generate empty grid' do
       it 'generates 4 random cells' do 
         grid = Grid.generate_grid(4) 
@@ -138,5 +112,4 @@ describe Grid  do
         expect(Grid.generate_empty_cells(ROWS,COLUMNS)).to eq(["E","E","E","E","E","E","E","E","E"])
       end
     end
-  end
 end

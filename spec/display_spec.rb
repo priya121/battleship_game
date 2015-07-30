@@ -25,5 +25,4 @@ COLUMNS = ['1','2','3','4']
     expect(table[1]).to include("A")
     expect(table[1]).to include("∙")
   end
-
 end

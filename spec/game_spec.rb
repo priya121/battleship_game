@@ -4,7 +4,7 @@ describe Game do
   ROWS = ['A','B','C']
   COLUMNS = ['1','2','3']
 
-  let(:input) {StringIO.new('A2')}
+  let(:input) {StringIO.new("A2\nA3\n")}
   let(:output) {StringIO.new('')}
   let(:coordinates) {['∙','◦','∙','∙']}
   let(:grid) {Grid.new(input,["E","E","E","E"],ROWS,COLUMNS).draw_ship(:battleship,1)}
@@ -37,7 +37,7 @@ describe Game do
       let(:grid) {Grid.new(input,["E","E","E","E","E","E","E","E","E"],rows,columns)}
 
       it 'asks for another guess when miss' do 
-        input = StringIO.new("C1\nA2\nA1")
+        input = StringIO.new("C1\nA2\nA1\n")
         grid.draw_ship(:battleship,1)
         final_grid = grid.draw_ship(:battleship,0)
         Game.new(input,output,rows,columns,final_grid).start

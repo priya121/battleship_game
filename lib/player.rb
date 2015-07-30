@@ -12,7 +12,7 @@ class Player
   end
 
   def index_of_coordinate(guess)
-    column_number = guess.split(//)[1].to_i - 1
+    column_number = "#{guess.split(//)[1] + guess.split(//)[2]}".to_i - 1
     row_letter = guess.split(//)[0]
     @row_label.each_with_index do |row,i|
       if row_letter == row

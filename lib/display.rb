@@ -25,7 +25,7 @@ class Display
   def display_columns
     @output.print "\t"
     @column_label.each do |number|
-      @output.print number.center(7)
+      @output.print number.center(8)
     end
     @output.puts "\n"
   end

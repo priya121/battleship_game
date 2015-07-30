@@ -47,6 +47,19 @@ class Grid
     @cells
   end
 
+  def draw_vertical_ship(ship,position)
+    SHIPS.each_with_index do |(draw_ship,number_of_cells),index|
+    if ship == draw_ship
+      i = position 
+      number_of_cells.times do |new_ship|
+        @cells[(i)] = SHIPS.keys[index]
+        i += @column_label.size 
+      end
+    end
+    end
+    @cells
+  end
+
   def target(index_from_coordinate)
     hit_or_miss(index_from_coordinate)
   end

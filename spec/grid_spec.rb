@@ -32,6 +32,12 @@ describe Grid  do
       initial_grid = [EMPTY,EMPTY,EMPTY,EMPTY]
       expect(Grid.new(input,initial_grid,row_label,column_label).draw_ship(:submarine,1)).to eq(["E",:submarine,:submarine,:submarine])
     end
+
+    it 'draws a vertical ship on the board' do
+      initial_grid = [EMPTY,EMPTY,EMPTY,EMPTY]
+      expect(Grid.new(input,initial_grid,row_label,column_label).draw_vertical_ship(:destroyer,0)).to eq([:destroyer,"E",:destroyer,"E"])
+
+    end
   end
     describe '#target' do 
       let(:row_label) {['A','B']}

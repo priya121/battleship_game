@@ -102,6 +102,7 @@ class Display
     hit_a_ship(grid_after_player_move)
     hit_a_destroyer(grid_after_player_move)
     destroyer_sunk(grid_after_player_move)
+    submarine_sunk(grid_after_player_move)
   end
 
   def missed_shot(grid_after_player_move,index_after_player_move)
@@ -114,7 +115,6 @@ class Display
   def hit_a_ship(grid_after_player_move)
     if grid_after_player_move.to_s.include?("HIT") 
       @output.puts "You sunk #{grid_after_player_move.count("HIT")} battleships."
-    else
     end
   end
 
@@ -127,6 +127,12 @@ class Display
   def destroyer_sunk(grid_after_player_move)
     if grid_after_player_move.count("HD") == 2
       @output.puts "You sunk a destroyer."
+    end
+  end
+
+  def submarine_sunk(grid_after_player_move)
+    if grid_after_player_move.count("HS") == 3
+      @output.puts "You sunk a submarine."
     end
   end
 end

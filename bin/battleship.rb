@@ -10,7 +10,7 @@ ROWS = ['A','B','C','D','E','F','G','H','I','J']
 
 cells = Grid.generate_empty_cells(ROWS,COLUMNS)
 
-Grid.new(Kernel,cells,ROWS,COLUMNS).draw_vertical_ship(:submarine,0)
+Grid.new(Kernel,cells,ROWS,COLUMNS).draw_vertical_ship(:submarine,48)
 Grid.new(Kernel,cells,ROWS,COLUMNS).draw_ship(:battleship,30)
 changed_cells = Grid.new(Kernel,cells,ROWS,COLUMNS).draw_ship(:destroyer,11)
 

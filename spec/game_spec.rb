@@ -1,8 +1,9 @@
 require 'game'
+require 'grid'
 
 describe Game do 
-  ROWS = ['A','B','C']
-  COLUMNS = ['1','2','3']
+  ROWS = ['A','B']
+  COLUMNS = ['1','2']
 
   let(:input) {StringIO.new("A2\nA3\n")}
   let(:output) {StringIO.new('')}
@@ -13,20 +14,19 @@ describe Game do
   describe 'two by two grid' do
     it 'displays a grid at the beginning of the game' do 
       Game.new(input,output,ROWS,COLUMNS,grid).start
-      expect(table[1]).to include("1","2")
-      expect(table[2]).to include('A','∙')
+      expect(table[0]).to include("1","2")
+      expect(table[1]).to include('A','∙')
     end
 
     it 'asks the user to guess a coordinate' do 
       Game.new(input,output,ROWS,COLUMNS,grid).start
-      expect(table[0]).to include("Guess a coordinate")
-      expect(table[1]).to include("1","2")
+      expect(table[5]).to include("Guess a coordinate:")
     end
 
     it 'displays an updated grid once a player has made a guess' do 
       grid = Grid.new(input,["E","E","E","E"],ROWS,COLUMNS).draw_ship(:battleship,1)
       Game.new(input,output,ROWS,COLUMNS,grid).start
-      expect(table[1]).to include("1","2")
+      expect(table[0]).to include("1","2")
       expect(table[2]).to include("∙")
     end
   end

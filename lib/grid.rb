@@ -3,10 +3,10 @@ require 'display'
 
 class Grid
   SHIPS = {:battleship => 1,
-           :destroyer => 2,
-           :submarine => 3,
-           :aircraft_carrier => 5,
-           :cruiser => 3}
+    :destroyer => 2,
+    :submarine => 3,
+    :aircraft_carrier => 5,
+    :cruiser => 3}
 
   attr_accessor :row_label, :column_label
   attr_reader :cells
@@ -25,13 +25,16 @@ class Grid
     @empty_grid.split(//)
   end
 
-  def self.generate_grid(size)
-    grid = []
-    (0..size - 1). each do |cell|
-      rand = [EMPTY,SHIPS.keys].sample
-      grid << rand
+  def draw_all_ships
+    SHIPS.each_with_index do |(_ships,number_of_cells),index|
+    index_increment = 0
+    random_index_position = random_index
+    number_of_cells.times do |new_ship|
+      @cells[random_index_position + index_increment] = SHIPS.keys[index]
+      index_increment += 1
     end
-    grid
+    end
+    @cells
   end
 
   def draw_ship(ship,position)
@@ -77,4 +80,22 @@ class Grid
     Display.new(@cells,@row_label,@column_label,@output).player_one_move
   end
 
+  def random_index
+    position_on_grid = rand(0..@cells.size)
+    check_ship_on_edge(position_on_grid)
+    check_ship_not_in_position(position_on_grid)
+    position_on_grid
+  end
+
+  def check_ship_on_edge(position_on_grid)
+    if position_on_grid  % @column_label.size == 0
+      position_on_grid = rand(0..@cells.size)
+    end
+  end
+
+  def check_ship_not_in_position(position_on_grid)
+    if @cells[position_on_grid] == "E"
+      position_on_grid 
+    end
+  end
 end

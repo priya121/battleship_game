@@ -1,15 +1,14 @@
-require 'game'
+require 'grid'
 
 describe Grid  do 
   EMPTY = "E"
 
   describe '#place_ship and place_destroyer' do 
-    initial_grid = [EMPTY,EMPTY,EMPTY,EMPTY]
-    grid_ship_placed = [EMPTY,EMPTY,:battleship,EMPTY]
 
-    let(:row_label) {['A','B']}
-    let(:column_label) {['1','2']}
+    let(:row_label) {['A','B','C','D','E','F','G']}
+    let(:column_label) {['1','2','3','4','5','6','7']}
     let(:input) {StringIO.new('A1')}
+    let(:initial_grid) {Grid.generate_empty_cells(row_label,column_label)}
 
     it 'has 0 rows and 0 columns' do 
       expect(Grid.new(input,initial_grid,row_label,column_label).cells).to eq(initial_grid)
@@ -19,60 +18,50 @@ describe Grid  do
       expect(Grid.new(input,initial_grid,row_label,column_label).cells).to eq(initial_grid)
     end
 
-    it 'has 1 ship as a coordinate' do 
-      expect(Grid.new(input,initial_grid,row_label,column_label).draw_ship(:battleship,2)).to eq(grid_ship_placed)
+    it 'ships are all placed on the grid' do 
+      expect(Grid.new(input,initial_grid,row_label,column_label).draw_all_ships).to include(:battleship)
+      expect(Grid.new(input,initial_grid,row_label,column_label).draw_all_ships).to include(:destroyer,:destroyer)
+      expect(Grid.new(input,initial_grid,row_label,column_label).draw_all_ships).to include(:cruiser,:cruiser,:cruiser)
+      expect(Grid.new(input,initial_grid,row_label,column_label).draw_all_ships).to include(:submarine,:submarine,:submarine)
+      expect(Grid.new(input,initial_grid,row_label,column_label).draw_all_ships).to include(:aircraft_carrier, :aircraft_carrier, :aircraft_carrier, :aircraft_carrier)
     end
 
-    it 'draws a ship depending on which ship is passed to it' do
-      initial_grid = [EMPTY,EMPTY,EMPTY,EMPTY]
-      expect(Grid.new(input,initial_grid,row_label,column_label).draw_ship(:destroyer,0)).to eq([:destroyer,:destroyer,"E","E"])
-    end
-
-    it 'draws a ship depending on which ship is passed to it' do
-      initial_grid = [EMPTY,EMPTY,EMPTY,EMPTY]
-      expect(Grid.new(input,initial_grid,row_label,column_label).draw_ship(:submarine,1)).to eq(["E",:submarine,:submarine,:submarine])
-    end
-
-    it 'draws a vertical ship on the board' do
-      initial_grid = [EMPTY,EMPTY,EMPTY,EMPTY]
-      expect(Grid.new(input,initial_grid,row_label,column_label).draw_vertical_ship(:destroyer,0)).to eq([:destroyer,"E",:destroyer,"E"])
-
+    it 're-randomizes a number if the random number generated is on the edge of the grid' do 
+     random_ship_placement = Grid.new(input,initial_grid,row_label,column_label).random_index
+     expect(random_ship_placement% column_label.size).not_to eq(0)
     end
   end
+
     describe '#target' do 
-      let(:row_label) {['A','B']}
-      let(:column_label) {['1','2']}
+      let(:row_label) {['A','B','C']}
+      let(:column_label) {['1','2','3']}
       let(:input) {StringIO.new('A2')}
+      let(:initial_grid) {['E','E','E','E','E','E','E','E','E']}
 
       it 'changes an empty coordinate to a miss' do
-        initial_grid = ["E","E","E","E"]
         input = StringIO.new('A1')
-        ship_placed = (Grid.new(input,initial_grid,row_label,column_label).draw_ship(:battleship,1))
-        expect(Grid.new(input,ship_placed,row_label,column_label).target(0)).to eq(["◦", "∙", "∙", "∙"])
+        ship_placed = Grid.new(input,initial_grid,row_label,column_label).draw_ship(:battleship,5)
+        expect(Grid.new(input,ship_placed,row_label,column_label).target(0)).to eq(["◦", "∙", "∙", "∙", "∙", "∙", "∙", "∙", "∙"])
       end
 
       it 'changes a coordinate in the first row with a ship to a hit' do 
         input = StringIO.new('A2')
-        initial_grid = ["E","E","E","E"]
         ship_placed = (Grid.new(input,initial_grid,row_label,column_label).draw_ship(:battleship,1))
-        expect(Grid.new(input,initial_grid,row_label,column_label).target(1)).to eq(["∙", "HIT", "∙", "∙"])
+        expect(Grid.new(input,initial_grid,row_label,column_label).target(1)).to eq(["∙", "HIT", "∙", "∙", "∙", "∙", "∙", "∙", "∙"])
       end
 
       it 'changes a coordinate with a ship in second row hit' do 
         input = StringIO.new('B1')
-        initial_grid = ["E","E","E","E"]
         ship_placed = (Grid.new(input,initial_grid,row_label,column_label).draw_ship(:battleship,3))
-        expect(Grid.new(input,ship_placed,row_label,column_label).target(3)).to eq(["∙", "∙", "∙", "HIT"])
+        expect(Grid.new(input,ship_placed,row_label,column_label).target(3)).to eq(["∙", "∙", "∙", "HIT", "∙", "∙", "∙", "∙", "∙"])
       end
 
       it 'changes a coordinate with a ship in the third row hit' do 
         row_label = ['A','B','C']
         column_label = ['1','2','3']
-        initial_grid = ["E","E","E","E","E","E","E","E","E"]
-        ship_placed = (Grid.new(input,initial_grid,row_label,column_label).draw_ship(:battleship,1))
-        expect(Grid.new(input,ship_placed,row_label,column_label).target(4)).to eq(["∙", "∙", "∙", "∙", "◦", "∙", "∙", "∙", "∙"])
-        expect(Grid.new(input,ship_placed,row_label,column_label).target(7)).to eq(["∙", "∙", "∙", "∙", "◦", "∙", "∙", "◦", "∙"])
-
+        ship_placed = (Grid.new(input,initial_grid,row_label,column_label).draw_ship(:battleship,4))
+        expect(Grid.new(input,ship_placed,row_label,column_label).target(4)).to eq(["∙", "∙", "∙", "∙", "HIT", "∙", "∙", "∙", "∙"])
+        expect(Grid.new(input,ship_placed,row_label,column_label).target(7)).to eq(["∙", "∙", "∙", "∙", "HIT", "∙", "∙", "◦", "∙"])
       end
 
       it 'changes a coordinate when a destroyer is hit' do 
@@ -100,22 +89,25 @@ describe Grid  do
       end
     end
 
-    describe '#generate_grid and #generate empty grid' do
-      it 'generates 4 random cells' do 
-        grid = Grid.generate_grid(4) 
-        expect(grid.size).to eq(4)
-      end
-
-      it 'generates 10 random cells' do 
-        grid = Grid.generate_grid(10) 
-        expect(grid.size).to eq(10)
-      end
-
+    describe '#generate empty grid' do
       it "auto genetares an empty grid if one isn't supplied" do
         ROWS= ['A','B','C']
         COLUMNS = ['1','2','3']
         input = StringIO.new('A1')
         expect(Grid.generate_empty_cells(ROWS,COLUMNS)).to eq(["E","E","E","E","E","E","E","E","E"])
       end
+
+      it "auto genetares an empty grid if one isn't supplied" do
+        ROWS= ['A','B','C','D']
+        COLUMNS = ['1','2','3','4']
+        input = StringIO.new('A1')
+        expect(Grid.generate_empty_cells(ROWS,COLUMNS).size).to eq(16)
+      end
     end
+  
+    def draw_all_ships
+      
+    end
+
+
 end

@@ -20,7 +20,7 @@ describe Game do
 
     it 'asks the user to guess a coordinate' do 
       Game.new(input,output,ROWS,COLUMNS,grid).start
-      expect(table[5]).to include("Guess a coordinate:")
+      expect(output.string).to include("Guess a coordinate:")
     end
 
     it 'displays an updated grid once a player has made a guess' do 

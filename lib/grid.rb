@@ -82,20 +82,28 @@ class Grid
 
   def random_index
     position_on_grid = rand(0..@cells.size)
-    check_ship_on_edge(position_on_grid)
-    check_ship_not_in_position(position_on_grid)
-    position_on_grid
+    new_position = check_ship_not_in_position(position_on_grid)
+    check_ship_on_edge(new_position)
   end
 
   def check_ship_on_edge(position_on_grid)
     if position_on_grid  % @column_label.size == 0
-      position_on_grid = rand(0..@cells.size)
+      position = position_on_grid
+    else 
+      position = rand(0..@cells.size)
+      check_ship_on_edge(position)
     end
+    position
   end
 
   def check_ship_not_in_position(position_on_grid)
-    if @cells[position_on_grid] == "E"
-      position_on_grid 
+    if @cells[position_on_grid]..@cells[position_on_grid + 5] == "E"
+      position = position_on_grid 
+      puts position
+    else
+      position = rand(0..@cells.size)
+      check_ship_not_in_position(position)
     end
+    position
   end
 end

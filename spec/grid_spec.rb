@@ -2,6 +2,11 @@ require 'grid'
 
 describe Grid  do 
   EMPTY = "E"
+  SHIPS = {:battleship => 1,
+    :destroyer => 2,
+    :submarine => 3,
+    :aircraft_carrier => 5,
+    :cruiser => 3}
 
   describe '#place_ship and place_destroyer' do 
 
@@ -106,7 +111,15 @@ describe Grid  do
     end
   
     def draw_all_ships
-      
+      SHIPS.each_with_index do |(_ships,number_of_cells),index|
+      index_increment = 0
+      random_index_position = random_index
+      number_of_cells.times do |new_ship|
+        @cells[random_index_position + index_increment] = SHIPS.keys[index]
+        index_increment += 1
+      end
+      end
+      @cells
     end
 
 

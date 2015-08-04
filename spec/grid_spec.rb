@@ -1,12 +1,7 @@
 require 'grid'
-
-describe Grid  do 
   EMPTY = "E"
   SHIPS = {:battleship => 1,
-    :destroyer => 2,
-    :submarine => 3,
-    :aircraft_carrier => 5,
-    :cruiser => 3}
+           :cruiser => 3}
 
   describe '#place_ship and place_destroyer' do 
 
@@ -32,10 +27,9 @@ describe Grid  do
     end
 
     it 're-randomizes a number if the random number generated is on the edge of the grid' do 
-     random_ship_placement = Grid.new(input,initial_grid,row_label,column_label).random_index
-     expect(random_ship_placement% column_label.size).not_to eq(0)
+      random_ship_placement = Grid.new(input,initial_grid,row_label,column_label).random_index
+      expect(random_ship_placement% column_label.size).not_to eq(0)
     end
-  end
 
     describe '#target' do 
       let(:row_label) {['A','B','C']}
@@ -84,6 +78,12 @@ describe Grid  do
         expect(Grid.new(input,ship_placed,row_label,column_label).target(2)).to eq(["HS", "HS", "HS", "∙"])
       end
 
+      it 'changes a coordinate when a aircraft carrier is hit' do 
+        initial_grid = ["E","E","E","E","E","E","E","E","E"]
+        ship_placed = (Grid.new(input,initial_grid,row_label,column_label).draw_ship(:aircraft_carrier,0))
+        expect(Grid.new(input,ship_placed,row_label,column_label).target(0)).to eq(["HA", "∙", "∙", "∙","∙", "∙","∙", "∙","∙"])
+      end
+
       it 'changes icon to hit once a player makes a guess' do 
         initial_grid = ["E","E","E","E","E","E","E","E","E"]
         input = StringIO.new('A2')
@@ -109,18 +109,17 @@ describe Grid  do
         expect(Grid.generate_empty_cells(ROWS,COLUMNS).size).to eq(16)
       end
     end
-  
+
     def draw_all_ships
+      cells = ['E','E','E','E','E','E','E','E'] 
       SHIPS.each_with_index do |(_ships,number_of_cells),index|
       index_increment = 0
-      random_index_position = random_index
+      random_index_position = rand(0..cells.length)
       number_of_cells.times do |new_ship|
-        @cells[random_index_position + index_increment] = SHIPS.keys[index]
+        cells[random_index_position + index_increment] = SHIPS.keys[index]
         index_increment += 1
       end
       end
-      @cells
+      cells
     end
-
-
-end
+  end

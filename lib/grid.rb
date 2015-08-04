@@ -74,7 +74,11 @@ class Grid
       @cells[column_number] = :hit_destroyer 
     elsif  @cells[column_number] == SHIPS.keys[2]
       @cells[column_number] = :hit_submarine 
-    elsif @cells[column_number] != SHIPS.keys[0]|| @cells[column_number] != SHIPS.keys[1] || @cells[column_number] != SHIPS.keys[2]
+    elsif  @cells[column_number] == SHIPS.keys[3]
+      @cells[column_number] = :hit_aircraft_carrier 
+    elsif  @cells[column_number] == SHIPS.keys[4]
+      @cells[column_number] = :hit_cruiser 
+    elsif @cells[column_number] != SHIPS.keys[0]|| @cells[column_number] != SHIPS.keys[1] || @cells[column_number] != SHIPS.keys[2] || @cells[column_number] !=SHIPS.key[3]
       @cells[column_number] = :miss
     end
     Display.new(@cells,@row_label,@column_label,@output).player_one_move
@@ -82,12 +86,11 @@ class Grid
 
   def random_index
     position_on_grid = rand(0..@cells.size)
-    new_position = check_ship_not_in_position(position_on_grid)
-    check_ship_on_edge(new_position)
+    check_ship_on_edge(position_on_grid)
   end
 
   def check_ship_on_edge(position_on_grid)
-    if position_on_grid  % @column_label.size == 0
+    if position_on_grid  % @column_label.size != 0 && @cells[position_on_grid]..@cells[position_on_grid + 5] == "E"
       position = position_on_grid
     else 
       position = rand(0..@cells.size)
@@ -96,14 +99,4 @@ class Grid
     position
   end
 
-  def check_ship_not_in_position(position_on_grid)
-    if @cells[position_on_grid]..@cells[position_on_grid + 5] == "E"
-      position = position_on_grid 
-      puts position
-    else
-      position = rand(0..@cells.size)
-      check_ship_not_in_position(position)
-    end
-    position
-  end
 end

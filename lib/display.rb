@@ -62,6 +62,7 @@ class Display
       coordinate_ship_hit(cell)
       coordinate_destroyer_hit(cell)
       coordinate_submarine_hit(cell)
+      coordinate_aircraft_hit(cell)
       coordinate_unchanged(cell)
     end
     @coordinates_after_guess
@@ -94,6 +95,12 @@ class Display
   def coordinate_submarine_hit(cell)
     if cell == :hit_submarine 
       @coordinates_after_guess << "HS"
+    end
+  end
+
+  def coordinate_aircraft_hit(cell)
+    if cell == :hit_aircraft_carrier 
+      @coordinates_after_guess << "HA"
     end
   end
 

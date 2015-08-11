@@ -26,12 +26,12 @@ class Grid
   end
 
   def draw_all_ships
-    SHIPS.each_with_index do |(_ships,number_of_cells),index|
+    SHIPS.each_with_index do |(_ship,number_of_cells),index|
     index_increment = 0
-    random_index_position = random_index
-    number_of_cells.times do |new_ship|
-      @cells[random_index_position + index_increment] = SHIPS.keys[index]
-      index_increment += 1
+      number_of_cells.times do |new_ship|
+        random_index_position = random_index(number_of_cells)
+        @cells[random_index_position + index_increment] = SHIPS.keys[index]
+        index_increment += 1
     end
     end
     @cells
@@ -40,24 +40,23 @@ class Grid
   def draw_ship(ship,position)
     SHIPS.each_with_index do |(draw_ship,number_of_cells),index|
     if ship == draw_ship
-      i = 0
+      index_increment = 0
       number_of_cells.times do |new_ship|
-        @cells[position + (i)] = SHIPS.keys[index]
-        i += 1
+        @cells[position + (index_increment)] = SHIPS.keys[index]
+        index_increment += 1 || index_increment += @column_label.size
       end
     end
     end
     @cells
   end
 
-  def draw_vertical_ship(ship,position)
-    SHIPS.each_with_index do |(draw_ship,number_of_cells),index|
-    if ship == draw_ship
-      i = position 
+  def draw_all_vertical_ships
+    SHIPS.each_with_index do |(_ships,number_of_cells),index|
+    index_increment = 0
+    random_index_position = random_index(number_of_cells)
       number_of_cells.times do |new_ship|
-        @cells[(i)] = SHIPS.keys[index]
-        i += @column_label.size 
-      end
+        @cells[random_index_position + index_increment] = SHIPS.keys[index]
+        index_increment += @column_label.size
     end
     end
     @cells
@@ -84,19 +83,21 @@ class Grid
     Display.new(@cells,@row_label,@column_label,@output).player_one_move
   end
 
-  def random_index
+  def random_index(number_of_cells)
     position_on_grid = rand(0..@cells.size)
-    check_ship_on_edge(position_on_grid)
+    check_ship_on_edge(position_on_grid,number_of_cells)
   end
 
-  def check_ship_on_edge(position_on_grid)
-    if position_on_grid  % @column_label.size != 0 && @cells[position_on_grid]..@cells[position_on_grid + 5] == "E"
-      position = position_on_grid
-    else 
-      position = rand(0..@cells.size)
-      check_ship_on_edge(position)
+  def check_ship_on_edge(position_on_grid,number_of_cells)
+    increment = 0 
+    number_of_cells.times do |check_edge|
+      if (position_on_grid + increment) % @column_label.size != 0 && (position_on_grid + increment) % @row_label.size != 0 && @cells[position_on_grid + increment] == "E"
+        @position = (position_on_grid)
+        increment += 1
+      else
+        @position = rand(0..@cells.size)
+      end
     end
-    position
+    @position
   end
-
 end

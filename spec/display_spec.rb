@@ -1,3 +1,4 @@
+require 'spec_helper'
 require 'display'
 
 describe Display do 
@@ -8,7 +9,7 @@ COLUMNS = ['1','2','3','4']
   let (:output) {StringIO.new('')}
   let (:table) {output.string.split("\n")}
   let (:cells) {['∙','∙','∙','∙','∙','∙','∙','∙']}
-  let (:after_player_move) {['M','E','∙','∙','∙','∙','∙','∙']}
+  let (:after_player_move) {[:miss,'E',:hit_battleship,'E','E','E','E','E']}
 
   it 'displays a new table' do 
     Display.new(cells,ROWS,COLUMNS,output).display_table(cells)
@@ -25,4 +26,5 @@ COLUMNS = ['1','2','3','4']
     expect(table[1]).to include("A")
     expect(table[1]).to include("∙")
   end
+
 end

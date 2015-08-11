@@ -1,7 +1,7 @@
 require 'grid'
 
 class Display
-  SHIPS = {:battleship => 4,
+  SHIPS = {:battleship => 1,
            :destroyer => 2,
            :submarine => 3,
            :aircraft_carrier => 5,
@@ -63,6 +63,7 @@ class Display
       coordinate_destroyer_hit(cell)
       coordinate_submarine_hit(cell)
       coordinate_aircraft_hit(cell)
+      coordinate_cruiser_hit(cell)
       coordinate_unchanged(cell)
     end
     @coordinates_after_guess
@@ -92,6 +93,12 @@ class Display
     end
   end
 
+  def coordinate_cruiser_hit(cell)
+    if cell == :hit_cruiser
+      @coordinates_after_guess << "HC"
+    end
+  end
+
   def coordinate_submarine_hit(cell)
     if cell == :hit_submarine 
       @coordinates_after_guess << "HS"
@@ -107,9 +114,10 @@ class Display
   def display_hit_or_miss(grid_after_player_move,index_after_player_move)
     missed_shot(grid_after_player_move,index_after_player_move)
     hit_a_ship(grid_after_player_move)
-    hit_a_destroyer(grid_after_player_move)
     destroyer_sunk(grid_after_player_move)
     submarine_sunk(grid_after_player_move)
+    aircraft_carrier_sunk(grid_after_player_move)
+    cruiser_sunk(grid_after_player_move)
   end
 
   def missed_shot(grid_after_player_move,index_after_player_move)
@@ -120,14 +128,8 @@ class Display
   end
 
   def hit_a_ship(grid_after_player_move)
-    if grid_after_player_move.to_s.include?("HIT") 
-      @output.puts "You sunk #{grid_after_player_move.count("HIT")} battleships."
-    end
-  end
-
-  def hit_a_destroyer(grid_after_player_move)
-    if grid_after_player_move.to_s.include?("HD")
-      @output.puts "You hit #{grid_after_player_move.count("HD")} part of a destroyer."
+    if grid_after_player_move.count("HIT") == 1
+      @output.puts "You sunk a battleship."
     end
   end
 
@@ -140,6 +142,18 @@ class Display
   def submarine_sunk(grid_after_player_move)
     if grid_after_player_move.count("HS") == 3
       @output.puts "You sunk a submarine."
+    end
+  end
+
+  def aircraft_carrier_sunk(grid_after_player_move)
+    if grid_after_player_move.count("HA") == 5
+      @output.puts "You sunk a aircraft carrier."
+    end
+  end
+
+  def cruiser_sunk(grid_after_player_move)
+    if grid_after_player_move.count("HC") == 3
+      @output.puts "You sunk a cruiser."
     end
   end
 end

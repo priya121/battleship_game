@@ -1,3 +1,4 @@
+require 'spec_helper'
 require 'player'
 
 describe Player do 
@@ -11,6 +12,6 @@ describe Player do
 
   it 'gives an index for a given coordinate' do
     input = StringIO.new("B1\n")
-    expect(Player.new(input,ROWS,COLUMNS).give_coordinate).to eq(4)
+    expect(Player.new(input,ROWS,COLUMNS).give_coordinate).to eq(3)
   end
 end

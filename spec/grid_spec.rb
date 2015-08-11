@@ -142,21 +142,6 @@ describe '#place_ship and place_destroyer' do
     end
   end
 
-  def draw_all_ships
-    @cells = ['E','E','E',
-             'E','E','E',
-             'E','E','E'] 
-    SHIPS.each_with_index do |(_ships,number_of_cells),index|
-    index_increment = 0
-    random_index_position = rand(0..cells.length)
-    number_of_cells.times do |new_ship|
-      cells[random_index_position + index_increment] = SHIPS.keys[index]
-      index_increment += 1
-    end
-    end
-    cells
-  end
-
   def random_index 
     position_on_grid = 3
     check_ship_on_edge(position_on_grid)

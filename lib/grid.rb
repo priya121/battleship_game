@@ -96,6 +96,7 @@ class Grid
         increment += 1
       else
         @position = rand(0..@cells.size)
+        check_ship_on_edge(@position,number_of_cells)
       end
     end
     @position

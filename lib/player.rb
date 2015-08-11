@@ -1,14 +1,24 @@
 class Player
 
-  def initialize(input,rows,columns)
+  def initialize(input,output,rows,columns)
     @row_label = rows
     @column_label = columns
     @input = input
+    @output = output
   end
 
   def give_coordinate
-    coordinate_guess = @input.gets.to_s
-    index_of_coordinate(coordinate_guess)
+    @coordinate_guess = @input.gets.to_s
+    invalid_move(@coordinate_guess)
+    index_of_coordinate(@coordinate_guess)
+  end
+
+  def invalid_move(coordinate_guess)
+    if coordinate_guess == "\n" || coordinate_guess.length < 3
+      @output.puts "Invalid coordinate, guess again:"
+      coordinate_guess = @input.gets.to_s
+    end
+    @coordinate_guess = coordinate_guess
   end
 
   def index_of_coordinate(guess)

@@ -28,10 +28,22 @@ class Grid
   def draw_all_ships
     SHIPS.each_with_index do |(_ship,number_of_cells),index|
     index_increment = 0
+    random_index_position = random_index(number_of_cells)
       number_of_cells.times do |new_ship|
-        random_index_position = random_index(number_of_cells)
         @cells[random_index_position + index_increment] = SHIPS.keys[index]
         index_increment += 1
+    end
+    end
+    @cells
+  end
+
+  def draw_all_vertical_ships
+    SHIPS.each_with_index do |(_ship,number_of_cells),index|
+    index_increment = 0
+    random_index_position = random_index(number_of_cells)
+      number_of_cells.times do |new_ship|
+        @cells[random_index_position + index_increment] = SHIPS.keys[index]
+        index_increment += @column_label.size
     end
     end
     @cells
@@ -43,7 +55,7 @@ class Grid
       index_increment = 0
       number_of_cells.times do |new_ship|
         @cells[position + (index_increment)] = SHIPS.keys[index]
-        index_increment += 1 || index_increment += @column_label.size
+        index_increment += 1 
       end
     end
     end
@@ -85,20 +97,31 @@ class Grid
 
   def random_index(number_of_cells)
     position_on_grid = rand(0..@cells.size)
-    check_ship_on_edge(position_on_grid,number_of_cells)
+    if check_all_positions_available(position_on_grid,number_of_cells) 
+      @position = position_on_grid
+    else
+      random_index(number_of_cells)
+    end
   end
 
-  def check_ship_on_edge(position_on_grid,number_of_cells)
-    increment = 0 
-    number_of_cells.times do |check_edge|
-      if (position_on_grid + increment) % @column_label.size != 0 && (position_on_grid + increment) % @row_label.size != 0 && @cells[position_on_grid + increment] == "E"
-        @position = (position_on_grid)
-        increment += 1
+  def check_all_positions_available(position_on_grid,number_of_cells)
+    increment = 0
+    number_of_cells.times do  
+      if position_available(position_on_grid + increment) 
       else
-        @position = rand(0..@cells.size)
-        check_ship_on_edge(@position,number_of_cells)
+        return false
       end
+      increment += 1
     end
-    @position
+    true
   end
+
+  def position_available(position_on_grid)
+    width = @column_label.size
+    height = width
+    on_the_edge = (position_on_grid) % width == 0 
+    on_the_bottom = (position_on_grid) % height == 0
+    !on_the_edge && !on_the_bottom && @cells[position_on_grid] == "E"
+  end
+
 end

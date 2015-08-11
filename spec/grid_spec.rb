@@ -49,13 +49,18 @@ describe Grid do
       end
 
       it "doesn't place a ship on the edge of a grid if half will be on the next line" do
-        random_ship_placement = Grid.new(input,initial_grid,rows,columns).random_index(2)
-        expect(random_ship_placement[0]% columns.size).not_to eq(0)
+        random_ship_placement = Grid.new(input,initial_grid,rows,columns).random_index(5)
+        position = random_ship_placement% columns.size
+        expect(random_ship_placement% columns.size).not_to eq(0)
       end
 
       it "doesn't place a ship on the edge of a grid if half will be on the next line" do
         random_ship_placement = random_index 
         expect(random_index).to eq(4)
+      end
+
+      it 'randomly places the ships horizontally or vertically' do 
+        expect(Grid.new(input,initial_grid,rows,columns).draw_all_ships).to include()
       end
 
       describe '#target' do 
@@ -67,7 +72,7 @@ describe Grid do
           input = StringIO.new('A1')
           ship_placed = Grid.new(input,initial_grid,rows,columns).draw_ship(:battleship,5)
           expect(Grid.new(input,ship_placed,rows,columns).target(0)).to eq(["◦", "∙", "∙", 
-                                                                           "∙", "∙", "∙",                                                                                         "∙", "∙", "∙"])
+             "∙", "∙", "∙",                                                 "∙", "∙", "∙"])
         end
 
         it 'changes a coordinate in the first row with a ship to a hit' do 
@@ -106,7 +111,8 @@ describe Grid do
       expect(Grid.new(input,ship_placed,rows,columns).target(2)).to eq(["HS", "HS", "HS", "∙"])
     end
 
-    it 'changes a coordinate when a aircraft carrier is hit' do 
+        it 'changes a coordinate when a aircraft carrier is hit' do 
+      input = StringIO.new('A1')
       initial_grid = ["E","E","E",
                       "E","E","E",
                       "E","E","E"]

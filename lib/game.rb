@@ -7,7 +7,7 @@ class Game
     @row_label = rows
     @column_label = columns
     @cells = cells
-    @player = Player.new(@input,@row_label,@column_label)
+    @player = Player.new(@input,@output,@row_label,@column_label)
     @grid = Grid.new(@input,@cells,@row_label,@column_label) 
     @display = Display.new(@cells,@row_label,@column_label,@output)
     @score = Score.new(@cells)

@@ -1,4 +1,4 @@
-# battleship_game
+# Battleship game
 
  What is it?
  -----------

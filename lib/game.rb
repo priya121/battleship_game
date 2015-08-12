@@ -25,12 +25,15 @@ class Game
     @display.display_hit_or_miss(grid_after_player_move,@index_after_player_move)
   end
 
+
   def start
     while ships_left_on_grid? 
       ask_player_guess 
     end
       @output.puts "You sunk all the ships. You win"
     end
+
+  private
 
   def ships_left_on_grid?
     @cells.any? { |c|

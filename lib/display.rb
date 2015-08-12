@@ -1,11 +1,11 @@
 require 'grid'
 
 class Display
-  SHIPS = {:battleship => 1,
-           :destroyer => 2,
-           :submarine => 3,
-           :aircraft_carrier => 5,
-           :cruiser => 3}
+  SHIPS = {:battleship => 4,
+    :destroyer => 2,
+    :submarine => 3,
+    :aircraft_carrier => 5,
+    :cruiser => 3}
 
   EMPTY = "E"
 
@@ -35,14 +35,10 @@ class Display
     cells.each_with_index do |cell, index|
       @output.print "\t"
       @output.print cell.center(5)
-      new_row?(index)
-    end
-  end
-
-  def new_row?(index)
-    if last_cell_in_row?(index)
-      @output.puts "\s"
-      @output.print row_label_for_cell(index)
+      if last_cell_in_row?(index) == true
+        @output.puts "\s"
+        @output.print row_label_for_cell(index)
+      end
     end
   end
 

@@ -63,20 +63,6 @@ class Display
     @row_label[row_label_index]
   end
 
-  def player_one_move
-    @coordinates_after_guess = []
-    @cells.each do |cell|
-      coordinate_empty(cell)
-      coordinate_ship_hit(cell)
-      coordinate_destroyer_hit(cell)
-      coordinate_submarine_hit(cell)
-      coordinate_aircraft_hit(cell)
-      coordinate_cruiser_hit(cell)
-      coordinate_unchanged(cell)
-    end
-    @coordinates_after_guess
-  end
-
   def coordinate_empty(cell)
     if cell == :miss 
      @coordinates_after_guess << "◦"
@@ -92,30 +78,6 @@ class Display
   def coordinate_unchanged(cell)
     if cell == EMPTY || cell == SHIPS.keys[0] || cell == SHIPS.keys[1] || cell == SHIPS.keys[2] || cell == SHIPS.keys[3] || cell == SHIPS.keys[4] || cell == SHIPS.keys[5]
       @coordinates_after_guess << "∙"
-    end
-  end
-
-  def coordinate_destroyer_hit(cell)
-    if cell == :hit_destroyer
-    @coordinates_after_guess << "HD"
-    end
-  end
-
-  def coordinate_cruiser_hit(cell)
-    if cell == :hit_cruiser
-    @coordinates_after_guess << "HC"
-    end
-  end
-
-  def coordinate_submarine_hit(cell)
-    if cell == :hit_submarine 
-    @coordinates_after_guess << "HS"
-    end
-  end
-
-  def coordinate_aircraft_hit(cell)
-    if cell == :hit_aircraft_carrier 
-    @coordinates_after_guess << "HA"
     end
   end
 

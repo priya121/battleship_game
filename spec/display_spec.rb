@@ -20,7 +20,7 @@ describe Display do
   end
 
   it 'changes the display of cells from letter to icons' do 
-    grid_after_guess = Display.new(after_player_move,ROWS,COLUMNS,output).player_one_move
+    grid_after_guess = Display.new(after_player_move,ROWS,COLUMNS,output).hit_made
     Display.new(cells,ROWS,COLUMNS,output).display_table(grid_after_guess)
     expect(table[0]).to include("1","2","3")
     expect(table[1]).to include("A")

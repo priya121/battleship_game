@@ -97,7 +97,7 @@ class Grid
     elsif @cells[column_number] != SHIPS.keys[0]|| @cells[column_number] != SHIPS.keys[1] || @cells[column_number] != SHIPS.keys[2] || @cells[column_number] !=SHIPS.key[3]
       @cells[column_number] = :miss
     end
-    Display.new(@cells,@row_label,@column_label,@output).player_one_move
+    Display.new(@cells,@row_label,@column_label,@output).hit_made
   end
 
   def random_index(number_of_cells)

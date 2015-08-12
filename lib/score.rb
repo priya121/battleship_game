@@ -4,61 +4,31 @@ class Score
     @cells = cells
   end
 
-  def ships_left_on_grid
+  def ships_left_on_grid?
     if destroyer_coordinates_left_on_grid == true || submarine_coordinates_left_on_grid == true || battleship_coordinates_left_on_grid == true || aircraft_carrier_coordinates_left_on_grid == true || cruiser_coordinates_left_on_grid == true 
-      @total_cells = true
     else
-      @total_cells = false
+      false
     end
   end
 
   def cruiser_coordinates_left_on_grid
-    if @cells.include?(:cruiser)
-      true
-    else
-      false
-    end
+    @cells.include?(:cruiser)
   end
 
   def aircraft_carrier_coordinates_left_on_grid
-    if @cells.include?(:aircraft_carrier)
-      true
-    else
-      false
-    end
-  end
-
-  def aircraft_carrier_coordinates_left_on_grid
-    if @cells.include?(:aircraft_carrier)
-      true
-    else
-      false
-    end
+    @cells.include?(:aircraft_carrier)
   end
 
   def destroyer_coordinates_left_on_grid
-    if @cells.include?(:destroyer)
-      true
-    else
-      false
-    end
+   @cells.include?(:destroyer)
   end
 
   def submarine_coordinates_left_on_grid
-    if @cells.include?(:submarine)
-      true
-    else
-      false
-    end
+    @cells.include?(:submarine)
   end
 
   def battleship_coordinates_left_on_grid
-    if @cells.include?(:battleship)
-      true
-    else
-      false
-    end
+   @cells.include?(:battleship)
   end
 
 end
-

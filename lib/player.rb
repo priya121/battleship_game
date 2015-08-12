@@ -18,7 +18,6 @@ class Player
       @output.puts "Invalid coordinate, guess again:"
       coordinate_guess = @input.gets.to_s
     end
-    @coordinate_guess = coordinate_guess
   end
 
   def index_of_coordinate(guess)

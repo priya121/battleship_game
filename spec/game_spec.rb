@@ -6,7 +6,7 @@ describe Game do
   ROWS = ['A','B']
   COLUMNS = ['1','2']
 
-  let(:input) {StringIO.new("A2\nA3\n")}
+  let(:input) {StringIO.new("A2\nA3\nA4\nA5\n")}
   let(:output) {StringIO.new('')}
   let(:coordinates) {['∙','◦','∙','∙']}
   let(:grid) {Grid.new(input,["E","E","E","E"],ROWS,COLUMNS).draw_ship(:battleship,1)}
@@ -25,7 +25,7 @@ describe Game do
     end
 
     it 'displays an updated grid once a player has made a guess' do 
-      grid = Grid.new(input,["E","E","E","E"],ROWS,COLUMNS).draw_ship(:battleship,1)
+      grid = Grid.new(input,["E","E","E","E","E","E","E","E","E"],ROWS,COLUMNS).draw_ship(:battleship,1)
       Game.new(input,output,ROWS,COLUMNS,grid).start
       expect(table[0]).to include("1","2")
       expect(table[2]).to include("∙")
@@ -38,15 +38,14 @@ describe Game do
       let(:grid) {Grid.new(input,["E","E","E","E","E","E","E","E","E"],rows,columns)}
 
       it 'asks for another guess when miss' do 
-        input = StringIO.new("C1\nA2\nA1\n")
-        grid.draw_ship(:battleship,1)
+        input = StringIO.new("A1\nA2\nA3\nB3\nB1\n")
         final_grid = grid.draw_ship(:battleship,0)
         Game.new(input,output,rows,columns,final_grid).start
         expect(output.string).to include("You missed.")
       end
 
       it 'tells the user they sunk a battleship' do 
-        input = StringIO.new("B2\n")
+        input = StringIO.new("B2\nB3\nC1\nC2\n")
         grid_with_ship = Grid.new(input,["E","E","E","E","E","E","E","E","E"],rows,columns).draw_ship(:battleship,4)
         Game.new(input,output,rows,columns,grid_with_ship).start
         expect(output.string).to include("You sunk all the ships.")
@@ -62,7 +61,7 @@ describe Game do
       end
 
       it 'exits the game when all hits have been made' do 
-        input = StringIO.new("B2\n")
+        input = StringIO.new("B2\nB3\nC1\nC2\n")
         final_grid = grid.draw_ship(:battleship,4)
         Game.new(input,output,rows,columns,final_grid).start
         expect(output.string).to include("You win")

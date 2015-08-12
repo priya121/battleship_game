@@ -2,7 +2,7 @@ require 'player'
 require 'display'
 
 class Grid
-  SHIPS = {:battleship => 1,
+  SHIPS = {:battleship => 4,
     :destroyer => 2,
     :submarine => 3,
     :aircraft_carrier => 5,
@@ -29,9 +29,9 @@ class Grid
     SHIPS.each_with_index do |(_ship,number_of_cells),index|
     index_increment = 0
     random_index_position = random_index(number_of_cells)
-      number_of_cells.times do |new_ship|
-        @cells[random_index_position + index_increment] = SHIPS.keys[index]
-        index_increment += 1
+    number_of_cells.times do |new_ship|
+      @cells[random_index_position + index_increment] = SHIPS.keys[index]
+      index_increment += 1
     end
     end
     @cells
@@ -41,12 +41,17 @@ class Grid
     SHIPS.each_with_index do |(_ship,number_of_cells),index|
     index_increment = 0
     random_index_position = random_index(number_of_cells)
-      number_of_cells.times do |new_ship|
-        @cells[random_index_position + index_increment] = SHIPS.keys[index]
-        index_increment += @column_label.size
+    number_of_cells.times do |new_ship|
+      @cells[random_index_position + index_increment] = SHIPS.keys[index]
+      index_increment += @column_label.size
     end
     end
     @cells
+  end
+
+  def vertical_or_horizontal
+      index_increment += 
+        [@column_label.size, 1].sample(1)
   end
 
   def draw_ship(ship,position)
@@ -66,9 +71,9 @@ class Grid
     SHIPS.each_with_index do |(_ships,number_of_cells),index|
     index_increment = 0
     random_index_position = random_index(number_of_cells)
-      number_of_cells.times do |new_ship|
-        @cells[random_index_position + index_increment] = SHIPS.keys[index]
-        index_increment += @column_label.size
+    number_of_cells.times do |new_ship|
+      @cells[random_index_position + index_increment] = SHIPS.keys[index]
+      index_increment += @column_label.size
     end
     end
     @cells
@@ -106,7 +111,7 @@ class Grid
 
   def check_all_positions_available(position_on_grid,number_of_cells)
     increment = 0
-    number_of_cells.times do  
+    number_of_cells.times do 
       if position_available(position_on_grid + increment) 
       else
         return false
@@ -123,5 +128,4 @@ class Grid
     on_the_bottom = (position_on_grid) % height == 0
     !on_the_edge && !on_the_bottom && @cells[position_on_grid] == "E"
   end
-
 end

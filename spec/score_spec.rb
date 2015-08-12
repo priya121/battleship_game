@@ -27,7 +27,7 @@ describe Score do
       expect(score.battleship_coordinates_left_on_grid).to eq(false)
     end
 
-    it 'checks if any subamarines are left on the grid' do 
+    it 'checks if any submarines are left on the grid' do 
       grid_with_submarine = [:submarine,:submarine,":submarine","E","E","E","E","E","E"]
       result = Score.new(grid_with_submarine).submarine_coordinates_left_on_grid
       expect(result).to eq(true)

@@ -77,7 +77,7 @@ class Display
 
   def coordinate_ship_hit(cell)
     if cell == :hit_battleship
-      @coordinates_after_guess << "HIT"
+      @coordinates_after_guess << "HB"
     end
   end
 
@@ -121,14 +121,14 @@ class Display
   end
 
   def missed_shot(grid_after_player_move,index_after_player_move)
-    unless grid_after_player_move[index_after_player_move] == "HIT" || grid_after_player_move[index_after_player_move] == "HD" || grid_after_player_move[index_after_player_move] =="HS"
+    unless grid_after_player_move[index_after_player_move] == "HB" || grid_after_player_move[index_after_player_move] == "HD" || grid_after_player_move[index_after_player_move] =="HS"
       @output.puts "You missed."
       @output.puts "Guess again"
     end
   end
 
   def hit_a_ship(grid_after_player_move)
-    if grid_after_player_move.count("HIT") == 1
+    if grid_after_player_move.count("HB") == 4
       @output.puts "You sunk a battleship."
     end
   end
@@ -140,9 +140,8 @@ class Display
   end
 
   def submarine_sunk(grid_after_player_move)
-    if grid_after_player_move.count("HS") == 3
+      grid_after_player_move.count("HS") == 3
       @output.puts "You sunk a submarine."
-    end
   end
 
   def aircraft_carrier_sunk(grid_after_player_move)

@@ -1,6 +1,10 @@
-require 'score'
-
 class Game
+  SHIPS = {:battleship => 4,
+    :destroyer => 2,
+    :submarine => 3,
+    :aircraft_carrier => 5,
+    :cruiser => 3}
+
   def initialize(input,output,rows,columns,cells)
     @input = input
     @output = output
@@ -10,7 +14,6 @@ class Game
     @player = Player.new(@input,@output,@row_label,@column_label)
     @grid = Grid.new(@input,@cells,@row_label,@column_label) 
     @display = Display.new(@cells,@row_label,@column_label,@output)
-    @score = Score.new(@cells)
   end
 
   def ask_player_guess
@@ -30,7 +33,7 @@ class Game
     end
 
   def ships_left_on_grid?
-    @score.ships_left_on_grid?
+    @cells.any? { |c|
+      SHIPS.keys.include?(c) }
   end
-
 end

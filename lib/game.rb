@@ -17,7 +17,7 @@ class Game
   end
 
   def ask_player_guess
-    @output.puts @display.display_table(@display.player_one_move)
+    @output.puts @display.display_table(@display.hit_made)
     @output.puts "Guess a coordinate:\n"
     @index_after_player_move = @player.give_coordinate
     grid_after_player_move = @grid.target(@index_after_player_move)

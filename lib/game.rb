@@ -26,7 +26,7 @@ class Game
   end
 
   def start
-    while ships_left_on_grid? == true
+    while ships_left_on_grid? 
       ask_player_guess 
     end
       @output.puts "You sunk all the ships. You win"

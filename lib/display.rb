@@ -75,12 +75,6 @@ class Display
     end
   end
 
-  def coordinate_unchanged(cell)
-    if cell == EMPTY || cell == SHIPS.keys[0] || cell == SHIPS.keys[1] || cell == SHIPS.keys[2] || cell == SHIPS.keys[3] || cell == SHIPS.keys[4] || cell == SHIPS.keys[5]
-      @coordinates_after_guess << "∙"
-    end
-  end
-
   def hit_made
     @cells.map do |cell| HIT_SHIPS[cell]
     end

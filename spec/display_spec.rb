@@ -28,7 +28,7 @@ describe Display do
   end
 
   describe 'ship_sunk' do 
-    it 'displays you sunk a destroyer when a destroyer has been sunk' do 
+    xit 'displays you sunk a destroyer when a destroyer has been sunk' do 
     grid_after_guess = Display.new(after_player_move,ROWS,COLUMNS,output).ship_sunk
     Display.new(cells,ROWS,COLUMNS,output).display_table(grid_after_guess)
     expect(table[4]).to include("You sunk a destroyer.")

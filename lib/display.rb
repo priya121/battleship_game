@@ -94,6 +94,11 @@ class Display
     end
   end
 
+  def ship_sunk
+    @cells.map do |cell| SHIPS[cell]
+    end
+  end
+
   def hit_a_ship(grid_after_player_move)
     grid_after_player_move.count("HB") == 4
     @output.puts "You sunk a battleship."

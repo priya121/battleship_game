@@ -30,5 +30,4 @@ class Player
     end
     column_number
   end
-
 end

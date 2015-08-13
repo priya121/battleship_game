@@ -46,7 +46,7 @@ class Display
     @output.print @row_label[0]
     cells.each_with_index do |cell, index|
       @output.print "\t"
-      @output.print cell
+      @output.print cell.to_s.center(7)
       if last_cell_in_row?(index) == true
         @output.puts "\s"
         @output.print row_label_for_cell(index)
@@ -63,18 +63,8 @@ class Display
     @row_label[row_label_index]
   end
 
-  def coordinate_empty(cell)
-    cell == :miss 
-    @coordinates_after_guess << "◦"
-  end
-
-  def coordinate_ship_hit(cell)
-     cell == :hit_battleship
-     @coordinates_after_guess << "HB"
-  end
-
   def hit_made
-    @cells.map do |cell| HIT_SHIPS[cell]
+  @cells.map do |cell| HIT_SHIPS[cell]
     end
   end
 
@@ -88,7 +78,7 @@ class Display
   end
 
   def missed_shot(grid_after_player_move,index_after_player_move)
-    unless grid_after_player_move[index_after_player_move] == "HB" || grid_after_player_move[index_after_player_move] == "HD" || grid_after_player_move[index_after_player_move] =="HS"
+    unless grid_after_player_move[index_after_player_move] == "HB" || grid_after_player_move[index_after_player_move] == "HD" || grid_after_player_move[index_after_player_move] =="HS" || grid_after_player_move[index_after_player_move] === "HA" || grid_after_player_move[index_after_player_move] === "HC" 
       @output.puts "You missed."
       @output.puts "Guess again"
     end
@@ -116,7 +106,6 @@ class Display
       @output.puts "You sunk a submarine."
     end
   end
-
 
   def aircraft_carrier_sunk(grid_after_player_move)
     if grid_after_player_move.count("HA") == 5

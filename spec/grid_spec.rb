@@ -71,24 +71,24 @@ describe Grid do
         input = StringIO.new('A1')
         ship_placed = Grid.new(input,initial_grid,rows,columns).draw_ship(:battleship,5)
         expect(Grid.new(input,ship_placed,rows,columns).hit_or_miss(0)).to eq(["◦", "∙", "∙", 
-                                                                         "∙", "∙", "∙",                                                 
-                                                                         "∙", "∙", "∙"])
+                                                                              "∙", "∙", "∙",                                                 
+                                                                              "∙", "∙", "∙"])
       end
 
       it 'changes a coordinate in the first row with a ship to a hit' do 
         input = StringIO.new('A2')
         ship_placed = (Grid.new(input,initial_grid,rows,columns).draw_ship(:battleship,1))
         expect(Grid.new(input,initial_grid,rows,columns).hit_or_miss(1)).to eq(["∙", "HB", "∙", 
-                                                                          "∙", "∙", "∙",                                                                                         
-                                                                          "∙", "∙", "∙"])
+                                                                               "∙", "∙", "∙",                                                                                         
+                                                                               "∙", "∙", "∙"])
       end
 
       it 'changes a coordinate with a ship in second row hit' do 
         input = StringIO.new('B1')
         ship_placed = (Grid.new(input,initial_grid,rows,columns).draw_ship(:battleship,3))
         expect(Grid.new(input,ship_placed,rows,columns).hit_or_miss(3)).to eq(["∙", "∙", "∙",                                                                                         
-                                                                         "HB", "∙", "∙",                                                                                       
-                                                                         "∙", "∙", "∙"])
+                                                                              "HB", "∙", "∙",                                                                                       
+                                                                              "∙", "∙", "∙"])
       end
 
       it 'changes a coordinate with a ship in the third row hit' do 
@@ -96,8 +96,8 @@ describe Grid do
         columns = ['1','2','3']
         ship_placed = (Grid.new(input,initial_grid,rows,columns).draw_ship(:battleship,4))
         expect(Grid.new(input,ship_placed,rows,columns).hit_or_miss(4)).to eq(["∙", "∙", "∙",                                                                                         
-                                                                         "∙", "HB", "∙",                                                                                       
-                                                                         "∙", "∙", "∙"])
+                                                                              "∙", "HB", "∙",                                                                                       
+                                                                              "∙", "∙", "∙"])
 
         expect(Grid.new(input,ship_placed,rows,columns).hit_or_miss(7)).to eq(["∙", "∙", "∙",                                                                                         
                                                                          "∙", "HB", "∙",                                                                                       
@@ -131,9 +131,8 @@ describe Grid do
           "E","E","E"]
 
         ship_placed = (Grid.new(input,initial_grid,rows,columns).draw_ship(:aircraft_carrier,0))
-        expect(Grid.new(input,ship_placed,rows,columns).hit_or_miss(0)).to eq(["HA", "∙", "∙",                                                                                        
-                                                                         "∙","∙", "∙",
-                                                                         "∙", "∙","∙"])
+        expect(Grid.new(input,ship_placed,rows,columns).hit_or_miss(0)).to eq(["HA", "∙", "∙",                                                                                 "∙","∙", "∙",
+                                                                               "∙", "∙","∙"])
       end
 
       it 'changes icon to hit once a player makes a guess' do 

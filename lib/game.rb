@@ -36,7 +36,7 @@ class Game
   private
 
   def ships_left_on_grid?
-    @cells.any? { |c|
-      SHIPS.keys.include?(c) }
+    @cells.any? { |cell|
+      SHIPS.keys.include?(cell) }
   end
 end

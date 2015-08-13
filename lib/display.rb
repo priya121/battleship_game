@@ -46,7 +46,7 @@ class Display
     @output.print @row_label[0]
     cells.each_with_index do |cell, index|
       @output.print "\t"
-      @output.print cell.center(5)
+      @output.print cell
       if last_cell_in_row?(index) == true
         @output.puts "\s"
         @output.print row_label_for_cell(index)
@@ -64,15 +64,13 @@ class Display
   end
 
   def coordinate_empty(cell)
-    if cell == :miss 
-     @coordinates_after_guess << "◦"
-    end
+    cell == :miss 
+    @coordinates_after_guess << "◦"
   end
 
   def coordinate_ship_hit(cell)
-    if cell == :hit_battleship
-      @coordinates_after_guess << "HB"
-    end
+     cell == :hit_battleship
+     @coordinates_after_guess << "HB"
   end
 
   def hit_made
@@ -97,15 +95,13 @@ class Display
   end
 
   def hit_a_ship(grid_after_player_move)
-    if grid_after_player_move.count("HB") == 4
-      @output.puts "You sunk a battleship."
-    end
+    grid_after_player_move.count("HB") == 4
+    @output.puts "You sunk a battleship."
   end
 
   def destroyer_sunk(grid_after_player_move)
-    if grid_after_player_move.count("HD") == 2
-      @output.puts "You sunk a destroyer."
-    end
+     grid_after_player_move.count("HD") == 2
+     @output.puts "You sunk a destroyer."
   end
 
   def submarine_sunk(grid_after_player_move)
@@ -114,14 +110,12 @@ class Display
   end
 
   def aircraft_carrier_sunk(grid_after_player_move)
-    if grid_after_player_move.count("HA") == 5
-      @output.puts "You sunk a aircraft carrier."
-    end
+     grid_after_player_move.count("HA") == 5
+     @output.puts "You sunk a aircraft carrier."
   end
 
   def cruiser_sunk(grid_after_player_move)
-    if grid_after_player_move.count("HC") == 3
-      @output.puts "You sunk a cruiser."
-    end
+    grid_after_player_move.count("HC") == 3
+    @output.puts "You sunk a cruiser."
   end
 end

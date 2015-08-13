@@ -17,14 +17,14 @@ class Game
   end
 
   def ask_player_guess
+    puts "\e[H\e[2J"
     @output.puts @display.display_table(@display.hit_made)
     @output.puts "Guess a coordinate:\n"
     @index_after_player_move = @player.give_coordinate
-    grid_after_player_move = @grid.target(@index_after_player_move)
+    grid_after_player_move = @grid.hit_or_miss(@index_after_player_move)
     @display.display_table(grid_after_player_move)
     @display.display_hit_or_miss(grid_after_player_move,@index_after_player_move)
   end
-
 
   def start
     while ships_left_on_grid? 

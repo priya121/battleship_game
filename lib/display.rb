@@ -95,32 +95,38 @@ class Display
   end
 
   def ship_sunk
-    @cells.map do |cell| SHIPS[cell]
+    @cells.map do |cell| HIT_SHIPS[cell]
     end
   end
 
   def hit_a_ship(grid_after_player_move)
-    grid_after_player_move.count("HB") == 4
-    @output.puts "You sunk a battleship."
+    if grid_after_player_move.count("HB") == 4
+      @output.puts "You sunk a battleship."
+    end
   end
 
   def destroyer_sunk(grid_after_player_move)
-     grid_after_player_move.count("HD") == 2
-     @output.puts "You sunk a destroyer."
+    if grid_after_player_move.count("HD") == 2
+      @output.puts "You sunk a destroyer."
+    end
   end
 
   def submarine_sunk(grid_after_player_move)
-    grid_after_player_move.count("HS") == 3
-    @output.puts "You sunk a submarine."
+    if grid_after_player_move.count("HS") == 3
+      @output.puts "You sunk a submarine."
+    end
   end
 
+
   def aircraft_carrier_sunk(grid_after_player_move)
-     grid_after_player_move.count("HA") == 5
-     @output.puts "You sunk a aircraft carrier."
+    if grid_after_player_move.count("HA") == 5
+      @output.puts "You sunk a aircraft carrier."
+    end
   end
 
   def cruiser_sunk(grid_after_player_move)
-    grid_after_player_move.count("HC") == 3
-    @output.puts "You sunk a cruiser."
+    if grid_after_player_move.count("HC") == 3
+      @output.puts "You sunk a cruiser."
+    end
   end
 end

@@ -27,18 +27,10 @@ describe Display do
     expect(table[1]).to include("∙")
   end
 
-  describe 'ship_sunk' do 
-    xit 'displays you sunk a destroyer when a destroyer has been sunk' do 
-    grid_after_guess = Display.new(after_player_move,ROWS,COLUMNS,output).ship_sunk
-    Display.new(cells,ROWS,COLUMNS,output).display_table(grid_after_guess)
-    expect(table[4]).to include("You sunk a destroyer.")
-    end
-  end
-
   describe '#hit_made' do 
     it 'changes the display of cells from letter to icons' do 
       grid_after_guess = Display.new(after_player_move,ROWS,COLUMNS,output)
-      changed_symbols = Display.new(after_player_move,ROWS,COLUMNS,output).hit_made
+      changed_symbols = Display.new(after_player_move,ROWS,COLUMNS,output).ship_sunk
       expect(changed_symbols).to include("HB")
       expect(changed_symbols).to include('∙')
       expect(changed_symbols).to include("◦")

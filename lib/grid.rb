@@ -79,10 +79,6 @@ class Grid
     @cells
   end
 
-  def target(index_from_coordinate)
-    hit_or_miss(index_from_coordinate)
-  end
-
   def hit_or_miss(column_number)
     if @cells[column_number] == SHIPS.keys[0]
       @cells[column_number] = :hit_battleship
